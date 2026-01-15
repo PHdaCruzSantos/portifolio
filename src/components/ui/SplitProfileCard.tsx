@@ -2,6 +2,7 @@ import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import type { ReactNode } from 'react';
 import { useRef } from 'react';
 import MagneticButton from './MagneticButton';
+import BlurImage from './BlurImage';
 
 
 interface SplitProfileCardProps {
@@ -86,10 +87,11 @@ const SplitProfileCard = ({ name, role, imageUrl }: Omit<SplitProfileCardProps, 
                     className="relative w-40 h-40 mb-6 rounded-full p-1 bg-gradient-to-br from-white/20 to-transparent shadow-2xl ring-1 ring-white/10"
                 >
                     <div className="w-full h-full rounded-full overflow-hidden relative">
-                        <img 
+                        <BlurImage 
                             src={imageUrl} 
                             alt={name} 
                             className="w-full h-full object-cover filter brightness-110 contrast-110"
+                            containerClassName="w-full h-full"
                         />
                         <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent opacity-40" />
                     </div>

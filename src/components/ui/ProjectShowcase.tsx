@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import BlurImage from './BlurImage';
 import { motion, AnimatePresence } from 'framer-motion';
 import { projects } from '../../data/projects';
 
@@ -109,10 +110,11 @@ const ProjectShowcase = () => {
                                 <div className={`w-full aspect-video rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br ${activeProject.color} relative group`}>
                                     <div className="absolute inset-0 opacity-20 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] bg-cover mix-blend-overlay"></div>
                                     
-                                    <img 
+                                    <BlurImage 
                                         src={activeProject.thumbnail} 
                                         alt={activeProject.title}
-                                        className="w-full h-full object-cover opacity-100 transition-transform duration-700 group-hover:scale-105"
+                                        className="w-full h-full object-cover"
+                                        containerClassName="w-full h-full"
                                     />
 
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex flex-col justify-end p-8">
@@ -198,7 +200,12 @@ const ProjectShowcase = () => {
                                                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-[200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
                                                     
                                                     {icon ? (
-                                                        <img src={icon} alt={tech} className="w-5 h-5 object-contain drop-shadow-md" />
+                                                        <BlurImage 
+                                                            src={icon} 
+                                                            alt={tech} 
+                                                            className="w-5 h-5 object-contain drop-shadow-md"
+                                                            containerClassName="w-5 h-5 flex items-center justify-center"
+                                                        />
                                                     ) : (
                                                         <span className="w-1.5 h-1.5 rounded-full bg-purple-400"></span>
                                                     )}

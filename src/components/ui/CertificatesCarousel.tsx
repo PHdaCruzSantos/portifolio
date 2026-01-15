@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
+import BlurImage from './BlurImage';
 
 // Import certificates
 import bootcamImg from '../../assets/certificados/bootcam React.png';
@@ -185,10 +186,11 @@ export default function CertificatesCarousel() {
                         <div className="flex items-center gap-3">
                              <div className={`w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center relative overflow-hidden group-hover:border-purple-500/50 transition-colors`}>
                                 <div className={`absolute inset-0 bg-gradient-to-br ${activeCert.color} opacity-20`} />
-                                <img 
+                                <BlurImage 
                                     src={activeCert.techIcon} 
                                     alt="Tech Icon" 
                                     className="w-8 h-8 object-contain relative z-10"
+                                    containerClassName="w-8 h-8 absolute inset-0 m-auto" 
                                 />
                             </div>
                             <div>
@@ -336,10 +338,11 @@ function CertificateCard({ cert, offset, isActive, onClick }: any) {
          </div>
 
          <div className="relative flex-1 w-full overflow-hidden bg-black/50 group-hover:bg-black/40 transition-colors flex items-center justify-center p-1">
-            <img 
+            <BlurImage 
                 src={cert.image} 
                 alt={cert.title}
                 className="w-full h-full object-contain opacity-90 transition-all duration-500 group-hover:scale-105 group-hover:opacity-100"
+                containerClassName="w-full h-full"
             />
             
             <div className="absolute inset-0 bg-gradient-to-tr from-white/5 to-transparent pointer-events-none mix-blend-overlay" />
