@@ -131,7 +131,7 @@ const ProjectShowcase = () => {
                                         </h3>
                                     </div>
 
-                                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
+                                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden lg:flex items-center justify-center backdrop-blur-[2px]">
                                         <div className="text-center space-y-4 transform scale-95 group-hover:scale-100 transition-transform duration-300">
                                             <p className="text-white/90 text-lg font-medium px-4">Preview do Projeto</p>
                                             <div className="flex gap-4 justify-center">
@@ -173,6 +173,44 @@ const ProjectShowcase = () => {
                                         </div>
                                     </div>
                                 </div>
+
+                            {/* MOBILE ACTION BUTTONS (Visible below image on small screens) */}
+                            <div className="flex lg:hidden flex-col gap-3 mt-6">
+                                {activeProject.details.links.github && (
+                                    <a 
+                                        href={activeProject.details.links.github}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="w-full px-6 py-3 bg-white text-black rounded-xl font-bold flex items-center justify-center gap-2 shadow-xl hover:bg-gray-200 transition-colors"
+                                    >
+                                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                            <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
+                                        </svg>
+                                        Ver Código Github
+                                    </a>
+                                )}
+                                {activeProject.details.links.live && (
+                                    <a 
+                                        href={activeProject.details.links.live}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="w-full px-6 py-3 bg-white/10 backdrop-blur-md text-white border border-white/20 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-white/20 transition-all"
+                                    >
+                                        {activeProject.details.links.demoConfig?.type === 'video' ? (
+                                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                        ) : (
+                                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                            </svg>
+                                        )}
+                                        {activeProject.details.links.demoConfig?.label || "Acessar Demo Live"}
+                                    </a>
+                                )}
+                            </div>
                             </div>
 
                             {/* RIGHT SIDE: Simplified Details (Description + Tech Stack) */}

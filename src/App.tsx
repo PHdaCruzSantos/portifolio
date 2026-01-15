@@ -21,7 +21,7 @@ function App() {
       <AnimatedBackground />
       
       {/* Global Top Fade Gradient */}
-      <div className="fixed top-0 left-0 w-full h-40 bg-gradient-to-b from-black via-black/60 to-transparent z-40 pointer-events-none" />
+      <div className="fixed top-0 left-0 w-full h-24 md:h-40 bg-gradient-to-b from-black via-black/60 to-transparent z-40 pointer-events-none" />
 
       <PillNav />
 
