@@ -1,0 +1,23 @@
+Prezados(as) Recrutadores(as),
+
+Escrevo para expressar meu grande interesse na vaga de Desenvolvedor(a) Júnior Full Stack, que tem como foco o desenvolvimento de soluções em Node.js, Next.JS, React JS e Vue.js para uma das maiores administradoras de benefícios do Brasil. A descrição do cargo, com ênfase na criação de APIs RESTful e no desenvolvimento com metodologias ágeis, alinha-se perfeitamente com minhas aspirações e meu conjunto de habilidades técnicas.
+
+Minha formação como Técnico em Informática e minha atual graduação em Sistemas de Informação na Universidade Federal de Ouro Preto (UFOP) me proporcionam uma base teórica robusta. Complemento essa formação com uma série de certificações e projetos práticos que me capacitam para atuar no desenvolvimento full-stack.
+
+Minhas competências técnicas, em constante aprimoramento, incluem:
+
+Front-End: Possuo experiência comprovada em Vue.js, atestada por um curso completo de treinamento na tecnologia. Além disso, a conclusão do "Bootcamp Desenvolvedor(a) Front End React" pela XP Educação me oferece a flexibilidade de trabalhar com as principais bibliotecas do mercado, conforme a necessidade do projeto. Tenho proficiência em HTML e CSS, e uma base em design gráfico que me permite construir interfaces modernas e responsivas.
+
+Back-End: Tenho conhecimento sólido em Node.js, com foco na criação e manutenção de APIs RESTful para entrega de soluções de alta qualidade. Minha familiaridade com o ORM Prisma me permite trabalhar de forma eficiente com bancos de dados, o que se traduz em uma rápida adaptação a tecnologias como MongoDB e SQL Server.
+
+Além do meu conhecimento técnico, tenho experiência com controle de versão utilizando Git e me interesso por práticas de desenvolvimento ágil. Minha participação em projetos de extensão e minha atuação como monitor de disciplina na UFOP também me permitiram desenvolver fortes habilidades de trabalho em equipe e comunicação, essenciais para o sucesso em um ambiente colaborativo.
+
+Agradeço a oportunidade de apresentar meu perfil. Anexo meu currículo para sua análise detalhada e aguardo com grande entusiasmo a possibilidade de contribuir com os projetos da sua empresa.
+
+Atenciosamente,
+
+Pedro Henrique da Cruz Santos
+
+phdacruzsantos.dev@gmial.com
+
+https://github.com/PHdaCruzSantos
