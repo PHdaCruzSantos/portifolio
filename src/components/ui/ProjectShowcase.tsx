@@ -9,8 +9,6 @@ import iconPostgres from '../../assets/techicons/PostgresSQL.png';
 import iconNode from '../../assets/techicons/JavaScript.png'; // Using JS icon for Node if specific node icon missing, or just assume Node logic later
 import iconTailwind from '../../assets/techicons/Tailwind CSS.png';
 import iconTS from '../../assets/techicons/TypeScript.png';
-import iconFirebase from '../../assets/techicons/Figma.png'; // Placeholder if Firebase missing, double checking list... Firebase IS missing. Using generic or Figma as placeholder? No, better to handle gracefully.
-import iconFramer from '../../assets/techicons/React.png'; // Placeholder for Framer
 import iconVite from '../../assets/techicons/Vite.js.png';
 import iconPython from '../../assets/techicons/Python.png';
 import iconRabbit from '../../assets/techicons/RabbitMQ.png';
@@ -18,26 +16,22 @@ import iconDocker from '../../assets/techicons/Docker.png';
 import iconMUI from '../../assets/techicons/Material UI.png';
 import iconAngular from '../../assets/techicons/AngularJS.png';
 
-// Fallback or specific Node icon? The list showed "JavaScript.png" but not "Node.js.png".
-// Let's use a mapping function.
-
 const getTechIcon = (techName: string) => {
     const normalize = techName.toLowerCase();
     if (normalize.includes('vue')) return iconVue;
     if (normalize.includes('react')) return iconReact;
     if (normalize.includes('postgres')) return iconPostgres;
-    if (normalize.includes('node')) return iconNode; // Fallback to JS icon or if 'Node.js' was in list? It wasn't.
+    if (normalize.includes('node')) return iconNode;
     if (normalize.includes('tailwind')) return iconTailwind;
     if (normalize.includes('typescript')) return iconTS;
     if (normalize.includes('vite')) return iconVite;
     if (normalize.includes('python')) return iconPython;
     if (normalize.includes('rabbit')) return iconRabbit;
     if (normalize.includes('docker')) return iconDocker;
-    if (normalize.includes('nestjs')) return iconTS; // Using TS icon for NestJS
+    if (normalize.includes('nestjs')) return iconTS;
     if (normalize.includes('material')) return iconMUI;
     if (normalize.includes('mui')) return iconMUI;
     if (normalize.includes('angular')) return iconAngular;
-    // Add others if available in the list 
     return null; 
 };
 

@@ -1,4 +1,4 @@
-import { motion, useMotionValue, useTransform, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
 
 // Import certificates
@@ -100,13 +100,12 @@ const certificates = [
 ];
 
 const AUTOPLAY_DELAY = 5000; // 5 seconds
-const DRAG_THRESHOLD = 50;
 
 export default function CertificatesCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
-  const autoplayRef = useRef<NodeJS.Timeout>();
+  const autoplayRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const activeCert = certificates[activeIndex];
@@ -249,7 +248,6 @@ export default function CertificatesCarousel() {
                 <div className="relative h-[400px] md:h-[500px] flex items-center justify-center">
                   <AnimatePresence mode="popLayout" initial={false} custom={direction}>
                     {certificates.map((cert, index) => {
-                      const offset = index - activeIndex;
                       let relativeOffset = (index - activeIndex) % certificates.length;
                       if (relativeOffset > certificates.length / 2) relativeOffset -= certificates.length;
                       else if (relativeOffset < -certificates.length / 2) relativeOffset += certificates.length;
@@ -297,7 +295,6 @@ function CertificateCard({ cert, offset, isActive, onClick }: any) {
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   const xOffset = offset * (isMobile ? 35 : 120);
   const scale = isActive ? 1 : 0.8;
-  const rotateY = offset * -15; 
   const zIndex = isActive ? 50 : 10 - Math.abs(offset);
   const opacity = isActive ? 1 : 0.5;
 
