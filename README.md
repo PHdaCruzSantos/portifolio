@@ -1,73 +1,43 @@
-# React + TypeScript + Vite
+# Portfólio Profissional - Pedro Henrique
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)
 
-Currently, two official plugins are available:
+> **"Transformando código em soluções reais e experiências digitais memoráveis."**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 👨‍💻 Sobre Mim
+Olá! Sou **Pedro Henrique da Cruz Santos**, estudante de **Sistemas de Informação na UFOP** e Desenvolvedor Full Stack Júnior apaixonado por criar interfaces modernas e performáticas.
 
-## React Compiler
+Este portfólio foi construído para demonstrar não apenas meus projetos passados, mas minha capacidade de entregar **UX de alta qualidade**, animações fluidas e código limpo.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🚀 Tecnologias Utilizadas
+Este projeto utiliza o que há de mais moderno no ecossistema web:
 
-## Expanding the ESLint configuration
+*   **Core:** React 19 + TypeScript
+*   **Build Tool:** Vite (Ultra rápido)
+*   **Estilização:** Tailwind CSS v4 (Alpha)
+*   **Animações:** Framer Motion & GSAP
+*   **Ícones & UI:** Lucide React & Componentes Customizados (Magnetic Buttons, Glassmorphism)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## ✨ Destaques do Projeto
+*   **Design Premium:** Interface imersiva com efeitos de "vidro" (glassmorphism) e gradientes dinâmicos.
+*   **Interatividade:** Botões magnéticos, carrossel de certificados e timeline de jornada profissional.
+*   **Alta Performance:** Otimizado para carregar instantaneamente, com práticas modernas de SEO e acessibilidade.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 📬 Contato & Contratação
+Estou **aberto a oportunidades** para atuar como Desenvolvedor Front-end ou Full Stack. Se você busca alguém que une técnica apurada com senso estético, vamos conversar!
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+*   [LinkedIn](https://www.linkedin.com/in/phdacruzsantos/)
+*   [GitHub](https://github.com/PHdaCruzSantos)
+*   [Email](mailto:phdacruzsantos.dev@gmail.com)
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🔮 Roadmap (Próximas Atualizações)
+Minha busca por evolução é constante. Aqui estão as próximas features planejadas para este projeto:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- [ ] 🇺🇸 Tradução completa para Inglês (EN-US)
+- [ ] 🌓 Toggle de Modo Claro/Escuro (Light/Dark Mode)
