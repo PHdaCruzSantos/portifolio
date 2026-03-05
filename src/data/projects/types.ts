@@ -28,6 +28,7 @@ export interface Project {
     category: string;
     year: string;
     thumbnail: string;
+    imageFit?: 'cover' | 'contain';
     color: string;
     details: ProjectDetails;
 }
