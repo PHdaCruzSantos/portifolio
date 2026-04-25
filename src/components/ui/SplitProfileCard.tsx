@@ -64,7 +64,7 @@ const SplitProfileCard = ({ name, role, imageUrl }: Omit<SplitProfileCardProps, 
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="relative w-full max-w-4xl mx-auto flex flex-col md:flex-row rounded-3xl overflow-hidden backdrop-blur-xl bg-white/5 border border-red shadow-2xl group perspective-1000"
+            className="relative w-full mx-auto grid md:grid-cols-[0.82fr_1.18fr] rounded-lg overflow-hidden backdrop-blur-xl bg-[#0b1117]/80 border border-white/10 shadow-2xl group perspective-1000"
         >
 
             <motion.div 
@@ -78,15 +78,15 @@ const SplitProfileCard = ({ name, role, imageUrl }: Omit<SplitProfileCardProps, 
                 className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
             />
 
-            <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-black/40 opacity-50 pointer-events-none z-0" />
+            <div className="absolute inset-0 bg-gradient-to-br from-white/[0.06] via-transparent to-black/40 opacity-60 pointer-events-none z-0" />
             
-            <div className="relative z-10 w-full md:w-2/5 p-8 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-white/5 bg-gradient-to-b from-white/5 to-transparent">
+            <div className="relative z-10 p-8 md:p-10 flex flex-col items-start justify-between border-b md:border-b-0 md:border-r border-white/10 bg-white/[0.03]">
                 
                 <motion.div 
                     style={{ transform: "translateZ(35px)" }} // Adjusted depth
-                    className="relative w-40 h-40 mb-6 rounded-full p-1 bg-gradient-to-br from-white/20 to-transparent shadow-2xl ring-1 ring-white/10"
+                    className="relative w-40 h-40 mb-8 rounded-lg p-1 bg-gradient-to-br from-teal-300/40 to-transparent shadow-2xl ring-1 ring-white/10"
                 >
-                    <div className="w-full h-full rounded-full overflow-hidden relative">
+                    <div className="w-full h-full rounded-md overflow-hidden relative">
                         <BlurImage 
                             src={imageUrl} 
                             alt={name} 
@@ -97,11 +97,12 @@ const SplitProfileCard = ({ name, role, imageUrl }: Omit<SplitProfileCardProps, 
                     </div>
                 </motion.div>
 
-                <motion.div style={{ transform: "translateZ(25px)" }} className="text-center">
-                    <h2 className="text-3xl font-bold text-white tracking-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+                <motion.div style={{ transform: "translateZ(25px)" }} className="text-left">
+                    <p className="text-sm uppercase tracking-[0.24em] text-teal-300/80 mb-4">Perfil</p>
+                    <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
                         {name}
                     </h2>
-                    <p className="mt-2 text-sm font-semibold uppercase tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
+                    <p className="mt-3 text-sm font-semibold uppercase tracking-widest text-slate-300">
                         {role}
                     </p>
                 </motion.div>
@@ -113,20 +114,33 @@ const SplitProfileCard = ({ name, role, imageUrl }: Omit<SplitProfileCardProps, 
                 </motion.div>
             </div>
 
-            <div className="relative z-10 w-full md:w-3/5 p-8 md:p-12 flex flex-col justify-center text-left">
+            <div className="relative z-10 p-8 md:p-12 flex flex-col justify-center text-left">
                 <motion.div style={{ transform: "translateZ(20px)" }}>
                     <h3 className="text-xl font-medium text-white/90 mb-6 flex items-center gap-3">
-                        <span className="w-8 h-[1px] bg-purple-500/50"></span>
-                        Sobre Mim
+                        <span className="w-8 h-[1px] bg-teal-300/60"></span>
+                        Sobre
                     </h3>
-                        Olá! Sou acadêmico de Sistemas de Informação na Universidade Federal de Ouro Preto (UFOP).
-                        <br /><br />
-                        Sou desenvolvedor full stack com foco em criar produtos digitais bem estruturados, escaláveis e fáceis de evoluir. Trabalho do design à implementação, unindo front-end moderno, back-end sólido e boas práticas de engenharia. Gosto de resolver problemas reais, aprender continuamente e construir soluções que fazem sentido para usuários e para o negócio.
+                    <div className="space-y-5 text-slate-300 leading-relaxed text-lg">
+                        <p>
+                            Sou acadêmico de Sistemas de Informação na Universidade Federal de Ouro Preto (UFOP) e desenvolvedor full stack com foco em aplicações web, APIs e produtos com fluxo real de uso.
+                        </p>
+                        <p>
+                            Meus projetos mostram uma base ampla: microsserviços em Node/Fastify, APIs Express/NestJS, frontends em React, Vue e Angular, apps Flutter, extensões Chrome, pipelines em Python e ambientes com Docker. Gosto de entender regra de negócio, organizar arquitetura e entregar interfaces objetivas.
+                        </p>
+                    </div>
+
+                    <div className="mt-8 grid sm:grid-cols-3 gap-3">
+                        {["Arquitetura pragmática", "Produto e UX", "APIs e dados"].map((item) => (
+                            <div key={item} className="rounded-md border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-slate-300">
+                                {item}
+                            </div>
+                        ))}
+                    </div>
                     
                     <div className="mt-10 flex flex-wrap gap-4">
                         <a 
                             href="#projects"
-                            className="inline-block cursor-pointer px-6 py-3 rounded-xl bg-white text-black font-semibold text-sm hover:bg-gray-200 transition-colors shadow-lg shadow-white/5 transform active:scale-95 duration-200"
+                            className="inline-block cursor-pointer px-6 py-3 rounded-md bg-teal-300 text-[#071311] font-semibold text-sm hover:bg-teal-200 transition-colors shadow-lg shadow-white/5 transform active:scale-95 duration-200"
                         >
                             Ver Projetos
                         </a>

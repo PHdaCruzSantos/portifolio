@@ -6,5 +6,10 @@ html {
 
 body {
   @apply text-white;
-  background-color: #0f0c29;
+  background-color: #080a0f;
+  color: #f8fafc;
+}
+
+body::selection {
+  background: rgba(20, 184, 166, 0.35);
 }

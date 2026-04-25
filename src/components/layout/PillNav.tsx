@@ -3,8 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const navItems = [
     { name: 'Início', id: 'hero' },
-    { name: 'Sobre Mim', id: 'aboutMe' },
-    { name: 'Skills', id: 'skills' },
+    { name: 'Sobre', id: 'aboutMe' },
+    { name: 'Stack', id: 'skills' },
     { name: 'Projetos', id: 'projects' },
     { name: 'Certificados', id: 'certificates' },
     { name: 'Contato', id: 'contact' },
@@ -32,20 +32,20 @@ const PillNav = () => {
         <>
             {/* DESKTOP NAV: Centered Pill */}
             <div className="hidden md:block fixed top-6 left-1/2 -translate-x-1/2 z-50">
-                <nav className="flex items-center gap-2 p-2 bg-black/20 backdrop-blur-md rounded-full border border-white/10 shadow-lg">
+                <nav className="flex items-center gap-2 p-2 bg-[#080a0f]/75 backdrop-blur-md rounded-lg border border-white/10 shadow-2xl">
                     {navItems.map((item) => (
                         <a
                             key={item.id}
                             href={`#${item.id}`}
                             onClick={() => handleNavClick(item.id)}
                             className={`relative px-4 py-2 text-sm font-medium transition-colors ${
-                                active === item.id ? 'text-black' : 'text-gray-400 hover:text-white'
+                                active === item.id ? 'text-[#071311]' : 'text-slate-400 hover:text-white'
                             }`}
                         >
                             {active === item.id && (
                                 <motion.div
                                     layoutId="pill-nav-active"
-                                    className="absolute inset-0 bg-white rounded-full z-0"
+                                    className="absolute inset-0 bg-teal-300 rounded-md z-0"
                                     transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                                 />
                             )}
@@ -59,7 +59,7 @@ const PillNav = () => {
             <div className="md:hidden fixed top-6 right-6 z-50">
                 <button 
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    className="p-3 rounded-full bg-black/20 backdrop-blur-md border border-white/10 text-white shadow-lg relative overflow-hidden group"
+                    className="p-3 rounded-lg bg-[#080a0f]/80 backdrop-blur-md border border-white/10 text-white shadow-lg relative overflow-hidden group"
                 >
                      <div className="relative w-6 h-6 flex flex-col justify-center items-center gap-1.5">
                         <motion.span 
@@ -97,7 +97,7 @@ const PillNav = () => {
                             animate={{ x: 0 }}
                             exit={{ x: "100%" }}
                             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                            className="fixed top-0 right-0 h-full w-3/4 max-w-sm bg-[#0a0a0a] border-l border-white/10 shadow-2xl z-50 md:hidden p-8 flex flex-col"
+                            className="fixed top-0 right-0 h-full w-3/4 max-w-sm bg-[#080a0f] border-l border-white/10 shadow-2xl z-50 md:hidden p-8 flex flex-col"
                         >
                             <div className="flex-1 flex flex-col justify-center gap-6">
                                 {navItems.map((item, index) => (
@@ -112,14 +112,14 @@ const PillNav = () => {
                                             active === item.id ? 'text-white' : 'text-gray-500'
                                         }`}
                                     >
-                                        <span className={`w-2 h-2 rounded-full ${active === item.id ? 'bg-purple-500' : 'bg-transparent border border-white/20'}`} />
+                                        <span className={`w-2 h-2 rounded-full ${active === item.id ? 'bg-teal-300' : 'bg-transparent border border-white/20'}`} />
                                         {item.name}
                                     </motion.a>
                                 ))}
                             </div>
 
                             <div className="pt-8 border-t border-white/10">
-                                <p className="text-gray-500 text-sm">© 2025. Construído com ❤️</p>
+                                <p className="text-slate-500 text-sm">© 2026. Pedro Henrique</p>
                             </div>
                         </motion.div>
                     </>

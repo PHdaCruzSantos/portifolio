@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import BlurImage from './BlurImage';
 
 // Import certificates
@@ -101,6 +101,7 @@ const certificates = [
 ];
 
 const AUTOPLAY_DELAY = 5000; // 5 seconds
+type Certificate = (typeof certificates)[number];
 
 export default function CertificatesCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -110,6 +111,21 @@ export default function CertificatesCarousel() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const activeCert = certificates[activeIndex];
+
+  const nextSlide = useCallback(() => {
+    setDirection(1);
+    setActiveIndex((prev) => (prev + 1) % certificates.length);
+  }, []);
+
+  const prevSlide = useCallback(() => {
+    setDirection(-1);
+    setActiveIndex((prev) => (prev - 1 + certificates.length) % certificates.length);
+  }, []);
+
+  const goToSlide = (index: number) => {
+    setDirection(index > activeIndex ? 1 : -1);
+    setActiveIndex(index);
+  };
 
   useEffect(() => {
     if (!isHovered) {
@@ -123,22 +139,7 @@ export default function CertificatesCarousel() {
         clearInterval(autoplayRef.current);
       }
     };
-  }, [activeIndex, isHovered]);
-
-  const nextSlide = () => {
-    setDirection(1);
-    setActiveIndex((prev) => (prev + 1) % certificates.length);
-  };
-
-  const prevSlide = () => {
-    setDirection(-1);
-    setActiveIndex((prev) => (prev - 1 + certificates.length) % certificates.length);
-  };
-
-  const goToSlide = (index: number) => {
-    setDirection(index > activeIndex ? 1 : -1);
-    setActiveIndex(index);
-  };
+  }, [activeIndex, isHovered, nextSlide]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -148,7 +149,7 @@ export default function CertificatesCarousel() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [activeIndex]);
+  }, [activeIndex, nextSlide, prevSlide]);
 
   return (
     <section className="relative w-full py-20 overflow-hidden">
@@ -160,13 +161,13 @@ export default function CertificatesCarousel() {
             viewport={{ once: true }}
             className="text-center mb-8 md:text-left md:pl-8"
         >
-            <span className="px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/20 text-sm font-medium text-purple-300 backdrop-blur-sm inline-block mb-4">
-                📜  Aprendizado Contínuo
+            <span className="px-4 py-2 rounded-md bg-teal-300/10 border border-teal-300/20 text-sm font-medium text-teal-100 backdrop-blur-sm inline-block mb-4">
+                Aprendizado continuo
             </span>
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-2">
                 Certificações
             </h2>
-             <p className="text-gray-400 text-lg max-w-xl">
+             <p className="text-slate-400 text-lg max-w-xl">
                 Evolução constante: mais de <span className="text-white font-bold">250 horas</span> em cursos.
             </p>
         </motion.div>
@@ -184,7 +185,7 @@ export default function CertificatesCarousel() {
                         className="space-y-6"
                     >
                         <div className="flex items-center gap-3">
-                             <div className={`w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center relative overflow-hidden group-hover:border-purple-500/50 transition-colors`}>
+                             <div className={`w-14 h-14 rounded-md bg-white/5 border border-white/10 flex items-center justify-center relative overflow-hidden group-hover:border-teal-300/50 transition-colors`}>
                                 <div className={`absolute inset-0 bg-gradient-to-br ${activeCert.color} opacity-20`} />
                                 <BlurImage 
                                     src={activeCert.techIcon} 
@@ -197,18 +198,18 @@ export default function CertificatesCarousel() {
                                 <h3 className="text-2xl md:text-4xl font-bold text-white leading-tight">
                                     {activeCert.title}
                                 </h3>
-                                <div className="text-purple-300 font-medium">
+                                <div className="text-teal-200 font-medium">
                                     {activeCert.issuer}
                                 </div>
                             </div>
                         </div>
 
                         <div className="flex flex-wrap gap-3">
-                            <span className="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-sm text-gray-300">
-                                📅 {activeCert.date}
+                            <span className="px-3 py-1 rounded-md bg-white/5 border border-white/10 text-sm text-gray-300">
+                                {activeCert.date}
                             </span>
-                             <span className="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-sm text-gray-300">
-                                ⏱️ {activeCert.hours}
+                             <span className="px-3 py-1 rounded-md bg-white/5 border border-white/10 text-sm text-gray-300">
+                                {activeCert.hours}
                             </span>
                         </div>
 
@@ -219,7 +220,7 @@ export default function CertificatesCarousel() {
                         <div className="flex gap-4 pt-4">
                              <button
                                 onClick={prevSlide}
-                                className="p-4 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:scale-105 transition-all group"
+                                className="p-4 rounded-md bg-white/5 border border-white/10 hover:bg-white/10 transition-all group"
                                 aria-label="Anterior"
                             >
                                 <svg className="w-6 h-6 text-white group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -228,7 +229,7 @@ export default function CertificatesCarousel() {
                             </button>
                             <button
                                 onClick={nextSlide}
-                                className="px-8 py-4 rounded-full bg-white text-black font-bold hover:scale-105 transition-all flex items-center gap-2 group"
+                                className="px-8 py-4 rounded-md bg-teal-300 text-[#071311] font-bold hover:bg-teal-200 transition-all flex items-center gap-2 group"
                             >
                                 Próximo
                                 <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -281,7 +282,7 @@ export default function CertificatesCarousel() {
                 onClick={() => goToSlide(index)}
                 className={`transition-all duration-300 rounded-full ${
                 index === activeIndex 
-                    ? 'w-8 h-2 bg-gradient-to-r from-purple-500 to-pink-500' 
+                    ? 'w-8 h-2 bg-teal-300' 
                     : 'w-2 h-2 bg-white/20 hover:bg-white/40'
                 }`}
             />
@@ -293,7 +294,14 @@ export default function CertificatesCarousel() {
   );
 }
 
-function CertificateCard({ cert, offset, isActive, onClick }: any) {
+interface CertificateCardProps {
+  cert: Certificate;
+  offset: number;
+  isActive: boolean;
+  onClick: () => void;
+}
+
+function CertificateCard({ cert, offset, isActive, onClick }: CertificateCardProps) {
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   const xOffset = offset * (isMobile ? 35 : 120);
   const scale = isActive ? 1 : 0.8;
@@ -317,7 +325,7 @@ function CertificateCard({ cert, offset, isActive, onClick }: any) {
         ease: "easeOut",
       }}
       onClick={onClick}
-      className={`absolute w-[280px] md:w-[450px] aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl ${
+      className={`absolute w-[280px] md:w-[450px] aspect-[4/3] rounded-lg overflow-hidden shadow-2xl ${
         isActive ? 'cursor-default' : 'cursor-pointer hover:brightness-110'
       }`}
       style={{
@@ -326,7 +334,7 @@ function CertificateCard({ cert, offset, isActive, onClick }: any) {
       }}
     >
       <div className={`w-full h-full relative transition-all duration-300 bg-[#1e1e1e] flex flex-col ${
-           isActive ? 'ring-2 ring-purple-500 shadow-[0_0_50px_rgba(168,85,247,0.4)]' : 'ring-1 ring-white/10 grayscale-[0.5]'
+           isActive ? 'ring-2 ring-teal-300/70 shadow-[0_0_50px_rgba(45,212,191,0.18)]' : 'ring-1 ring-white/10 grayscale-[0.5]'
       }`}>
          <div className="h-8 min-h-[32px] w-full border-b border-white/5 bg-white/5 flex items-center px-4 gap-2 z-20">
             <div className="w-3 h-3 rounded-full bg-[#ff5f56] opacity-80" />

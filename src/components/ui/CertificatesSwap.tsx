@@ -80,7 +80,7 @@ const CertificatesSwap = () => {
         if (isAnimating) return;
         setIsAnimating(true);
 
-        const cards = gsap.utils.toArray('.swap-card');
+        const cards = gsap.utils.toArray<HTMLElement>('.swap-card');
         if (cards.length === 0) return;
 
         const frontCard = cards[0] as HTMLElement;
@@ -95,8 +95,8 @@ const CertificatesSwap = () => {
                 
                 setActiveIndex((prev) => (prev + 1) % certificates.length);
 
-                const newCards = gsap.utils.toArray('.swap-card');
-                newCards.forEach((card: any, i) => {
+                const newCards = gsap.utils.toArray<HTMLElement>('.swap-card');
+                newCards.forEach((card, i) => {
                     gsap.to(card, {
                         scale: 1 - i * scaleStep,
                         y: -i * dist,
@@ -135,7 +135,7 @@ const CertificatesSwap = () => {
             ease: "back.out(1.1)"
         });
 
-        cards.slice(1).forEach((card: any, i) => {
+        cards.slice(1).forEach((card, i) => {
             gsap.to(card, {
                 scale: 1 - i * scaleStep,
                 y: -i * dist,
@@ -150,12 +150,12 @@ const CertificatesSwap = () => {
     };
 
     useEffect(() => {
-        const cards = gsap.utils.toArray('.swap-card');
+        const cards = gsap.utils.toArray<HTMLElement>('.swap-card');
         const dist = 15;
         const scaleStep = 0.03;
         const xStep = 8;
 
-        cards.forEach((card: any, i) => {
+        cards.forEach((card, i) => {
             gsap.set(card, {
                 scale: 1 - i * scaleStep,
                 y: -i * dist,
