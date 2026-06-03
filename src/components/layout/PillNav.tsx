@@ -32,20 +32,20 @@ const PillNav = () => {
         <>
             {/* DESKTOP NAV: Centered Pill */}
             <div className="hidden md:block fixed top-6 left-1/2 -translate-x-1/2 z-50">
-                <nav className="flex items-center gap-2 p-2 bg-[#080a0f]/75 backdrop-blur-md rounded-lg border border-white/10 shadow-2xl">
+                <nav className="flex items-center gap-2 p-2 bg-[var(--cv-paper)]/85 backdrop-blur-md border border-[var(--cv-ink)]/25 shadow-none">
                     {navItems.map((item) => (
                         <a
                             key={item.id}
                             href={`#${item.id}`}
                             onClick={() => handleNavClick(item.id)}
                             className={`relative px-4 py-2 text-sm font-medium transition-colors ${
-                                active === item.id ? 'text-[#071311]' : 'text-slate-400 hover:text-white'
+                                active === item.id ? 'text-[var(--cv-paper-soft)]' : 'text-[var(--cv-muted)] hover:text-[var(--cv-ink)]'
                             }`}
                         >
                             {active === item.id && (
                                 <motion.div
                                     layoutId="pill-nav-active"
-                                    className="absolute inset-0 bg-teal-300 rounded-md z-0"
+                                    className="absolute inset-0 bg-[var(--cv-accent)] z-0"
                                     transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                                 />
                             )}
@@ -59,20 +59,20 @@ const PillNav = () => {
             <div className="md:hidden fixed top-6 right-6 z-50">
                 <button 
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    className="p-3 rounded-lg bg-[#080a0f]/80 backdrop-blur-md border border-white/10 text-white shadow-lg relative overflow-hidden group"
+                    className="p-3 bg-[var(--cv-paper)]/90 backdrop-blur-md border border-[var(--cv-ink)]/25 text-[var(--cv-ink)] shadow-none relative overflow-hidden group"
                 >
                      <div className="relative w-6 h-6 flex flex-col justify-center items-center gap-1.5">
                         <motion.span 
                             animate={{ rotate: isMobileMenuOpen ? 45 : 0, y: isMobileMenuOpen ? 8 : 0 }}
-                            className="w-full h-0.5 bg-white origin-center transition-transform"
+                            className="w-full h-0.5 bg-current origin-center transition-transform"
                         />
                          <motion.span 
                             animate={{ opacity: isMobileMenuOpen ? 0 : 1 }}
-                            className="w-full h-0.5 bg-white transition-opacity"
+                            className="w-full h-0.5 bg-current transition-opacity"
                         />
                          <motion.span 
                             animate={{ rotate: isMobileMenuOpen ? -45 : 0, y: isMobileMenuOpen ? -8 : 0 }}
-                            className="w-full h-0.5 bg-white origin-center transition-transform"
+                            className="w-full h-0.5 bg-current origin-center transition-transform"
                         />
                      </div>
                 </button>
@@ -88,7 +88,7 @@ const PillNav = () => {
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             onClick={() => setIsMobileMenuOpen(false)}
-                            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
+                            className="fixed inset-0 bg-[var(--cv-ink)]/35 backdrop-blur-sm z-40 md:hidden"
                         />
                         
                         {/* Drawer */}
@@ -97,7 +97,7 @@ const PillNav = () => {
                             animate={{ x: 0 }}
                             exit={{ x: "100%" }}
                             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                            className="fixed top-0 right-0 h-full w-3/4 max-w-sm bg-[#080a0f] border-l border-white/10 shadow-2xl z-50 md:hidden p-8 flex flex-col"
+                            className="fixed top-0 right-0 h-full w-3/4 max-w-sm bg-[var(--cv-paper)] border-l border-[var(--cv-ink)]/25 shadow-2xl z-50 md:hidden p-8 flex flex-col"
                         >
                             <div className="flex-1 flex flex-col justify-center gap-6">
                                 {navItems.map((item, index) => (
@@ -109,17 +109,17 @@ const PillNav = () => {
                                         animate={{ opacity: 1, x: 0 }}
                                         transition={{ delay: 0.1 * index }}
                                         className={`text-2xl font-bold flex items-center gap-4 ${
-                                            active === item.id ? 'text-white' : 'text-gray-500'
+                                            active === item.id ? 'text-[var(--cv-accent)]' : 'text-[var(--cv-muted)]'
                                         }`}
                                     >
-                                        <span className={`w-2 h-2 rounded-full ${active === item.id ? 'bg-teal-300' : 'bg-transparent border border-white/20'}`} />
+                                        <span className={`w-2 h-2 rounded-full ${active === item.id ? 'bg-[var(--cv-accent)]' : 'bg-transparent border border-[var(--cv-ink)]/25'}`} />
                                         {item.name}
                                     </motion.a>
                                 ))}
                             </div>
 
-                            <div className="pt-8 border-t border-white/10">
-                                <p className="text-slate-500 text-sm">© 2026. Pedro Henrique</p>
+                            <div className="pt-8 border-t border-[var(--cv-ink)]/20">
+                                <p className="text-[var(--cv-muted)] text-sm">© 2026. Pedro Henrique</p>
                             </div>
                         </motion.div>
                     </>
