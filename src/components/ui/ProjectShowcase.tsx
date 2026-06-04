@@ -1,13 +1,11 @@
-import { useState, useEffect } from 'react';
 import BlurImage from './BlurImage';
-import { motion, AnimatePresence } from 'framer-motion';
 import { projects } from '../../data/projects';
+import type { Project } from '../../data/projects';
 
-// Import Icons
 import iconVue from '../../assets/techicons/Vue.js.png';
 import iconReact from '../../assets/techicons/React.png';
 import iconPostgres from '../../assets/techicons/PostgresSQL.png';
-import iconNode from '../../assets/techicons/JavaScript.png'; // Using JS icon for Node if specific node icon missing, or just assume Node logic later
+import iconNode from '../../assets/techicons/JavaScript.png';
 import iconTailwind from '../../assets/techicons/Tailwind CSS.png';
 import iconTS from '../../assets/techicons/TypeScript.png';
 import iconVite from '../../assets/techicons/Vite.js.png';
@@ -16,6 +14,8 @@ import iconRabbit from '../../assets/techicons/RabbitMQ.png';
 import iconDocker from '../../assets/techicons/Docker.png';
 import iconMUI from '../../assets/techicons/Material UI.png';
 import iconAngular from '../../assets/techicons/AngularJS.png';
+import iconFlutter from '../../assets/techicons/Flutter.png';
+import iconSwagger from '../../assets/techicons/Swagger.png';
 
 const getTechIcon = (techName: string) => {
     const normalize = techName.toLowerCase();
@@ -30,316 +30,400 @@ const getTechIcon = (techName: string) => {
     if (normalize.includes('rabbit')) return iconRabbit;
     if (normalize.includes('docker')) return iconDocker;
     if (normalize.includes('nestjs')) return iconTS;
-    if (normalize.includes('material')) return iconMUI;
-    if (normalize.includes('mui')) return iconMUI;
+    if (normalize.includes('material') || normalize.includes('mui')) return iconMUI;
     if (normalize.includes('angular')) return iconAngular;
+    if (normalize.includes('flutter') || normalize.includes('react native')) return iconFlutter;
+    if (normalize.includes('swagger') || normalize.includes('api')) return iconSwagger;
     if (normalize.includes('manifest')) return iconNode;
     return null;
 };
 
+const featuredProjectIds = new Set([7, 8]);
+
+const featuredProjects = projects.filter((project) => featuredProjectIds.has(project.id));
+const gridProjects = projects.filter((project) => !featuredProjectIds.has(project.id));
+
 const ProjectShowcase = () => {
-    const [activeIndex, setActiveIndex] = useState(0);
-    const [isHovering, setIsHovering] = useState(false);
-    const activeProject = projects[activeIndex] || projects[0];
-
-    useEffect(() => {
-        if (isHovering) return;
-
-        const interval = setInterval(() => {
-            setActiveIndex(current =>
-                (current + 1) % projects.length
-            );
-        }, 8000);
-
-        return () => clearInterval(interval);
-    }, [isHovering]);
-
-    const handleProjectChange = (index: number) => {
-        setActiveIndex(index);
-    };
-
     return (
-        <div
-            className="w-full max-w-7xl mx-auto px-6 py-20"
-            onMouseEnter={() => setIsHovering(true)}
-            onMouseLeave={() => setIsHovering(false)}
-        >
-            <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
+        <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-6 py-10">
+            <div className="grid gap-5 border-y border-[var(--cv-line)] py-6 lg:grid-cols-[0.8fr_1.2fr]">
+                <aside className="flex flex-col justify-between gap-8 border-b border-[var(--cv-line)] pb-6 lg:border-b-0 lg:border-r lg:pb-0 lg:pr-8">
+                    <div>
+                        <div className="cv-meta-row">
+                            <span>Projetos em destaque</span>
+                            <span className="ml-auto">08</span>
+                        </div>
+                        <h3 className="mt-5 max-w-md text-3xl font-black uppercase leading-[0.86] tracking-[-0.07em] text-[var(--cv-accent)] md:text-5xl">
+                            Soluções com cara de produto.
+                        </h3>
+                        <p className="mt-5 max-w-md text-sm leading-snug text-[var(--cv-muted)] md:text-base">
+                            Da extensão que acelera operação ao app mobile com backend estruturado, cada projeto mostra entrega real em produto, dados e full stack.
+                        </p>
+                    </div>
 
-                {/* LEFT: Project Numbers Navigation */}
-                <div className="flex lg:flex-col gap-4 lg:gap-6 justify-start items-center lg:items-start w-full lg:w-auto z-10">
-                    {projects.map((project, index) => (
-                        <button
-                            key={project.id}
-                            onClick={() => handleProjectChange(index)}
-                            className="group relative flex items-center gap-3 focus:outline-none"
-                        >
-                            <span
-                                className={`text-4xl lg:text-7xl font-bold font-mono transition-all duration-500 ${activeIndex === index
-                                    ? 'text-white scale-110'
-                                    : 'text-white/10 hover:text-white/30 scale-100'
-                                    }`}
-                            >
-                                0{index + 1}
-                            </span>
+                    <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
+                        <StatCard value="2" label="Extensões de navegador" />
+                        <StatCard value="3" label="Produtos full stack e dashboards" />
+                        <StatCard value="2" label="Dados e mobile" />
+                    </div>
+                </aside>
 
-                            {activeIndex === index && (
-                                <motion.div
-                                    layoutId="activeLine"
-                                    className="hidden lg:block w-8 h-1 bg-white rounded-full"
-                                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                                />
-                            )}
-                        </button>
+                <div className="grid gap-5 md:grid-cols-2">
+                    {featuredProjects.map((project, index) => (
+                        <FeaturedProjectCard key={project.id} project={project} index={index + 1} />
                     ))}
                 </div>
+            </div>
 
-                {/* CENTER & RIGHT: Project Preview + Details Side by Side */}
-                <div className="flex-1 w-full">
-                    <AnimatePresence mode="wait">
-                        <motion.div
-                            key={activeProject.id}
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -20 }}
-                            transition={{ duration: 0.5, ease: "circOut" }}
-                            className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start"
-                        >
-                            {/* LEFT SIDE: Project Preview (Images) - Larger Area */}
-                            <div className="space-y-4 lg:col-span-8">
-                                <div className={`w-full rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br ${activeProject.color} relative group`} style={{ aspectRatio: activeProject.imageFit === 'contain' ? '1/1' : '16/9' }}>
-                                    <div className="absolute inset-0 opacity-20 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] bg-cover mix-blend-overlay"></div>
-
-                                    {activeProject.imageFit === 'contain' ? (
-                                        <div className="absolute inset-0 flex flex-col items-center justify-center p-2 lg:p-4">
-                                            {/* Browser Window Mockup Container */}
-                                            <div className="relative w-full max-w-5xl h-full pb-0 rounded-xl border border-white/20 bg-black/80 backdrop-blur-xl overflow-hidden shadow-[0_0_40px_rgba(0,0,0,0.6)] flex flex-col">
-
-                                                {/* Browser Top Bar */}
-                                                <div className="w-full h-10 bg-white/10 flex items-center px-4 gap-2 border-b border-white/10 shrink-0">
-                                                    {/* Browser window buttons (Mac style) */}
-                                                    <div className="flex gap-1.5">
-                                                        <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
-                                                        <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
-                                                        <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
-                                                    </div>
-                                                    {/* URL Bar simulation */}
-                                                    <div className="mx-auto w-1/2 max-w-sm h-5 bg-black/40 rounded-md flex items-center px-3 border border-white/5">
-                                                        <span className="text-[10px] text-white/40 block w-full text-center truncate">
-                                                            {activeProject.title} - chrome-extension://
-                                                        </span>
-                                                    </div>
-                                                </div>
-
-                                                {/* Browser Content Layout (Blurred background + centered Side Panel) */}
-                                                <div className="flex-1 w-full flex overflow-hidden relative">
-
-                                                    {/* Blurred background using the extension thumbnail */}
-                                                    <div className="absolute inset-0">
-                                                        <img
-                                                            src={activeProject.thumbnail}
-                                                            alt=""
-                                                            className="w-full h-20 object-cover scale-110"
-                                                            style={{ filter: 'blur(24px) brightness(0.25) saturate(1.5)' }}
-                                                        />
-                                                    </div>
-
-                                                    {/* Centered Side Panel mockup */}
-                                                    <div className="relative z-10 flex items-center justify-center w-full h-full py-0 gap-4 lg:gap-8">
-
-                                                        {/* Left website skeleton - visible on larger screens */}
-                                                        <div className="hidden lg:flex flex-col gap-3 w-[80px] shrink-0 opacity-30 mt-6 md:mt-10 self-start">
-                                                            <div className="w-full h-6 bg-white/10 rounded-md"></div>
-                                                            <div className="w-3/4 h-4 bg-white/10 rounded-md"></div>
-                                                            <div className="w-5/6 h-4 bg-white/10 rounded-md"></div>
-                                                            <div className="w-2/3 h-4 bg-white/10 rounded-md"></div>
-                                                            <div className="w-full h-20 bg-white/5 rounded-lg mt-2"></div>
-                                                            <div className="w-full h-20 bg-white/5 rounded-lg"></div>
-                                                        </div>
-
-                                                        {/* Side Panel Extension - main focus */}
-                                                        <div className="h-full w-[280px] sm:w-[320px] lg:w-[380px] max-w-full bg-[#0a0a0a] shadow-[0_0_60px_rgba(168,85,247,0.25)] border border-white/10 flex flex-col shrink-0 rounded-lg overflow-hidden">
-                                                            {/* Extension Header */}
-                                                            <div className="w-full h-10 bg-white/5 border-b border-white/10 flex items-center px-3 justify-between shrink-0">
-                                                                <div className="flex items-center gap-2">
-                                                                    <div className="w-5 h-5 rounded bg-purple-500/30 flex items-center justify-center">
-                                                                        <span className="text-purple-400 text-[9px] font-bold">EX</span>
-                                                                    </div>
-                                                                    <span className="text-white/80 text-xs font-medium truncate max-w-[120px]">{activeProject.title}</span>
-                                                                </div>
-                                                                <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center shrink-0">
-                                                                    <svg className="w-2.5 h-2.5 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
-                                                                </div>
-                                                            </div>
-                                                            {/* Extension Screenshot */}
-                                                            <div className="flex-1 w-full overflow-hidden">
-                                                                <BlurImage
-                                                                    src={activeProject.thumbnail}
-                                                                    alt={activeProject.title}
-                                                                    className="w-full h-full object-cover object-top"
-                                                                    containerClassName="w-full h-full"
-                                                                />
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        <BlurImage
-                                            src={activeProject.thumbnail}
-                                            alt={activeProject.title}
-                                            className="w-full h-full object-cover"
-                                            containerClassName="w-full h-full"
-                                        />
-                                    )}
-
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex flex-col justify-end p-8">
-                                        <div className="flex items-center gap-3 text-sm mb-3">
-                                            <span className="px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm border border-white/20 text-white font-medium">
-                                                {activeProject.year}
-                                            </span>
-                                            <span className="text-white/80 uppercase tracking-widest text-xs font-bold">
-                                                {activeProject.category}
-                                            </span>
-                                        </div>
-                                        <h3 className="text-3xl lg:text-5xl font-bold text-white leading-tight drop-shadow-lg">
-                                            {activeProject.title}
-                                        </h3>
-                                    </div>
-
-                                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden lg:flex items-center justify-center backdrop-blur-[2px]">
-                                        <div className="text-center space-y-4 transform scale-95 group-hover:scale-100 transition-transform duration-300">
-                                            <p className="text-white/90 text-lg font-medium px-4">Preview do Projeto</p>
-                                            <div className="flex gap-4 justify-center">
-                                                {activeProject.details.links.github && (
-                                                    <a
-                                                        href={activeProject.details.links.github}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        className="px-6 py-3 bg-white text-black rounded-xl font-bold hover:scale-105 transition-transform flex items-center gap-2 shadow-xl"
-                                                    >
-                                                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                                            <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
-                                                        </svg>
-                                                        Ver Código
-                                                    </a>
-                                                )}
-                                                {activeProject.details.links.live && (
-                                                    <a
-                                                        href={activeProject.details.links.live}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        className="px-6 py-3 bg-white/10 backdrop-blur-md text-white border border-white/20 rounded-xl font-bold hover:bg-white/20 transition-all flex items-center gap-2"
-                                                    >
-                                                        {activeProject.details.links.demoConfig?.type === 'video' ? (
-                                                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                            </svg>
-                                                        ) : (
-                                                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                                            </svg>
-                                                        )}
-                                                        {activeProject.details.links.demoConfig?.label || "Live Demo"}
-                                                    </a>
-                                                )}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* MOBILE ACTION BUTTONS (Visible below image on small screens) */}
-                                <div className="flex lg:hidden flex-col gap-3 mt-6">
-                                    {activeProject.details.links.github && (
-                                        <a
-                                            href={activeProject.details.links.github}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="w-full px-6 py-3 bg-white text-black rounded-xl font-bold flex items-center justify-center gap-2 shadow-xl hover:bg-gray-200 transition-colors"
-                                        >
-                                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                                <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
-                                            </svg>
-                                            Ver Código Github
-                                        </a>
-                                    )}
-                                    {activeProject.details.links.live && (
-                                        <a
-                                            href={activeProject.details.links.live}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="w-full px-6 py-3 bg-white/10 backdrop-blur-md text-white border border-white/20 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-white/20 transition-all"
-                                        >
-                                            {activeProject.details.links.demoConfig?.type === 'video' ? (
-                                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                </svg>
-                                            ) : (
-                                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                                </svg>
-                                            )}
-                                            {activeProject.details.links.demoConfig?.label || "Acessar Demo Live"}
-                                        </a>
-                                    )}
-                                </div>
-                            </div>
-
-                            {/* RIGHT SIDE: Simplified Details (Description + Tech Stack) */}
-                            <div className="flex flex-col gap-8 lg:col-span-4 h-full justify-center">
-                                <div>
-                                    <h4 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                                        <span className="text-purple-400">⚡</span> Sobre o Projeto
-                                    </h4>
-                                    <p className="text-gray-300 leading-relaxed text-lg">
-                                        {activeProject.details.overview.description}
-                                    </p>
-                                </div>
-
-                                <div>
-                                    <p className="text-sm text-white/50 uppercase tracking-wider mb-4">Stack Tecnológico</p>
-                                    <div className="flex flex-wrap gap-3">
-                                        {activeProject.details.overview.stack.map((tech: string) => {
-                                            const icon = getTechIcon(tech);
-                                            return (
-                                                <span
-                                                    key={tech}
-                                                    className="group relative px-4 py-2 rounded-xl text-sm font-bold bg-white/5 border border-white/10 text-white flex items-center gap-3 transition-all duration-300 hover:scale-105 hover:bg-white/10 hover:border-purple-500/50 hover:shadow-[0_0_15px_rgba(168,85,247,0.3)] cursor-default overflow-hidden"
-                                                >
-                                                    {/* Glow effect on hover */}
-                                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-[200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
-
-                                                    {icon ? (
-                                                        <BlurImage
-                                                            src={icon}
-                                                            alt={tech}
-                                                            className="w-5 h-5 object-contain drop-shadow-md"
-                                                            containerClassName="w-5 h-5 flex items-center justify-center"
-                                                        />
-                                                    ) : (
-                                                        <span className="w-1.5 h-1.5 rounded-full bg-purple-400"></span>
-                                                    )}
-                                                    <span className="relative z-10 text-gray-200 group-hover:text-white transition-colors">{tech}</span>
-                                                </span>
-                                            );
-                                        })}
-                                    </div>
-                                </div>
-                            </div>
-
-                        </motion.div>
-                    </AnimatePresence>
-                </div>
-
+            <div className="grid gap-px overflow-hidden border border-[var(--cv-line)] bg-[var(--cv-line)] md:grid-cols-2 xl:grid-cols-3">
+                {gridProjects.map((project, index) => (
+                    <ProjectCard key={project.id} project={project} index={index + featuredProjects.length + 1} />
+                ))}
+                <ComingSoonProjectCard index={gridProjects.length + featuredProjects.length + 1} />
             </div>
         </div>
     );
 };
+
+const StatCard = ({ value, label }: { value: string; label: string }) => (
+    <div className="border border-[var(--cv-line)] bg-[var(--cv-surface)] p-4">
+        <p className="text-3xl font-black leading-none tracking-[-0.06em] text-[var(--cv-accent)]">{value}</p>
+        <p className="mt-3 text-xs uppercase leading-snug text-[var(--cv-muted)]">{label}</p>
+    </div>
+);
+
+const FeaturedProjectCard = ({ project, index }: { project: Project; index: number }) => (
+    <article className="group flex min-h-full flex-col border border-[var(--cv-line)] bg-[var(--cv-surface)] transition-transform duration-300 hover:-translate-y-1">
+        <ProjectVisual project={project} featured />
+
+        <div className="flex flex-1 flex-col p-5">
+            <div className="cv-meta-row">
+                <span>{String(index).padStart(2, '0')}</span>
+                <span>{project.year}</span>
+                <span className="ml-auto">{project.category}</span>
+            </div>
+
+            <h3 className="mt-5 text-3xl font-black uppercase leading-[0.88] tracking-[-0.07em] text-[var(--cv-ink)]">
+                {project.title}
+            </h3>
+            <p className="mt-4 text-sm leading-snug text-[var(--cv-muted)]">{project.details.overview.description}</p>
+
+            <div className="mt-5 flex flex-wrap gap-2">
+                {project.details.overview.stack.slice(0, 4).map((tech) => (
+                    <TechBadge key={tech} tech={tech} />
+                ))}
+            </div>
+
+            <ProjectActions project={project} primaryLabel="Ver código" secondaryLabel={project.details.links.demoConfig?.label || 'Abrir demo'} />
+        </div>
+    </article>
+);
+
+const ProjectCard = ({ project, index }: { project: Project; index: number }) => (
+    <article className="group flex h-full flex-col bg-[var(--cv-paper)] p-5">
+        <ProjectVisual project={project} />
+
+        <div className="mt-5 cv-meta-row">
+            <span>{String(index).padStart(2, '0')}</span>
+            <span>{project.year}</span>
+            <span className="ml-auto">{project.category}</span>
+        </div>
+
+        <h3 className="mt-5 text-2xl font-black uppercase leading-[0.9] tracking-[-0.06em] text-[var(--cv-ink)]">
+            {project.title}
+        </h3>
+
+        <p className="mt-4 text-sm leading-snug text-[var(--cv-muted)]">{project.details.overview.description}</p>
+
+        <div className="mt-5 space-y-3 border-t border-[var(--cv-line)] pt-4">
+            {project.details.highlights.slice(0, 2).map((highlight) => (
+                <div key={highlight} className="grid grid-cols-[1.2rem_1fr] gap-3 text-sm leading-snug text-[var(--cv-muted)]">
+                    <span className="mt-1.5 h-px w-full bg-[var(--cv-accent)]" />
+                    <span>{highlight}</span>
+                </div>
+            ))}
+        </div>
+
+        <div className="mt-5 flex flex-wrap gap-2">
+            {project.details.overview.stack.slice(0, 5).map((tech) => (
+                <TechBadge key={tech} tech={tech} />
+            ))}
+        </div>
+
+        <ProjectActions project={project} primaryLabel="GitHub" secondaryLabel={project.details.links.demoConfig?.label || 'Demo'} />
+    </article>
+);
+
+const ComingSoonProjectCard = ({ index }: { index: number }) => (
+    <article className="group flex h-full min-h-[31rem] flex-col bg-[var(--cv-paper)] p-5">
+        <div className="relative aspect-[16/10] overflow-hidden border border-[var(--cv-line)] bg-[var(--cv-paper-soft)] p-4">
+            <div className="absolute inset-0 opacity-60 cv-grid" />
+            <div className="relative flex h-full flex-col justify-between border border-[var(--cv-line)] bg-[var(--cv-paper)] p-4">
+                <div className="flex items-center justify-between border-b border-[var(--cv-line)] pb-3 text-[10px] uppercase text-[var(--cv-muted)]">
+                    <span>building-next-case.app</span>
+                    <span>loading</span>
+                </div>
+
+                <div className="space-y-4">
+                    <div className="h-12 w-3/4 border border-[var(--cv-accent)] bg-[var(--cv-accent)]/12" />
+                    <div className="space-y-2">
+                        <div className="h-2 w-full overflow-hidden bg-[var(--cv-line-soft)]">
+                            <span className="block h-full w-1/3 animate-pulse bg-[var(--cv-accent)]" />
+                        </div>
+                        <div className="h-2 w-4/5 bg-[var(--cv-line-soft)]" />
+                        <div className="h-2 w-2/3 bg-[var(--cv-line-soft)]" />
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-5 gap-2">
+                    {Array.from({ length: 15 }).map((_, cellIndex) => (
+                        <span
+                            key={cellIndex}
+                            className="aspect-square border border-[var(--cv-line)]"
+                            style={{
+                                backgroundColor: cellIndex % 4 === 0 ? 'var(--cv-accent)' : 'transparent',
+                                opacity: cellIndex % 4 === 0 ? 0.45 : 1,
+                            }}
+                        />
+                    ))}
+                </div>
+            </div>
+        </div>
+
+        <div className="mt-5 cv-meta-row">
+            <span>{String(index).padStart(2, '0')}</span>
+            <span>Seu projeto</span>
+            <span className="ml-auto">Coming soon</span>
+        </div>
+
+        <h3 className="mt-5 text-2xl font-black uppercase leading-[0.9] tracking-[-0.06em] text-[var(--cv-ink)]">
+            O próximo projeto pode ser o seu.
+        </h3>
+
+        <p className="mt-4 text-sm leading-snug text-[var(--cv-muted)]">
+            Tem uma ideia, produto ou operação precisando sair do papel? Este espaço está reservado para a próxima entrega construída com clareza, código e responsabilidade.
+        </p>
+
+        <div className="mt-5 flex flex-wrap gap-2">
+            {['Discovery', 'Produto', 'Arquitetura'].map((tech) => (
+                <span key={tech} className="inline-flex items-center gap-2 border border-[var(--cv-line)] bg-[var(--cv-surface)] px-2.5 py-1.5 text-xs text-[var(--cv-ink)]">
+                    <span className="h-1.5 w-1.5 animate-pulse bg-[var(--cv-accent)]" />
+                    <span>{tech}</span>
+                </span>
+            ))}
+        </div>
+
+        <div className="mt-auto flex flex-wrap gap-3 pt-6">
+            <a href="#contact" className="cv-button cv-button-primary">
+                Vamos conversar
+            </a>
+            <a
+                href="https://www.linkedin.com/in/phdacruzsantos/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="cv-button cv-button-ghost"
+            >
+                LinkedIn
+            </a>
+        </div>
+    </article>
+);
+
+const ProjectVisual = ({ project, featured = false }: { project: Project; featured?: boolean }) => {
+    if (project.thumbnail === 'visual:data') {
+        return <DataVisual featured={featured} />;
+    }
+
+    if (project.thumbnail === 'visual:mobile') {
+        return <MobileVisual featured={featured} />;
+    }
+
+    if (project.imageFit === 'contain') {
+        return <ExtensionVisual project={project} featured={featured} />;
+    }
+
+    return (
+        <div className={`${featured ? 'aspect-[16/11]' : 'aspect-[16/10]'} overflow-hidden border border-[var(--cv-line)] bg-[var(--cv-paper-soft)]`}>
+            <BlurImage
+                src={project.thumbnail}
+                alt={project.title}
+                className="h-full w-full object-cover object-top grayscale transition-all duration-500 group-hover:scale-[1.03] group-hover:grayscale-0"
+                containerClassName="h-full w-full"
+            />
+        </div>
+    );
+};
+
+const ExtensionVisual = ({ project, featured = false }: { project: Project; featured?: boolean }) => (
+    <div className={`${featured ? 'aspect-[16/11]' : 'aspect-[16/10]'} relative overflow-hidden border border-[var(--cv-line)] bg-[var(--cv-paper-soft)] p-4`}>
+        <div className="absolute inset-0 opacity-50 cv-grid" />
+        <div className="relative flex h-full items-center justify-center">
+            <div className="flex h-full w-full max-w-[26rem] flex-col overflow-hidden border border-[var(--cv-line)] bg-[var(--cv-paper)] shadow-[0_18px_50px_var(--cv-shadow)]">
+                <div className="flex h-10 items-center justify-between border-b border-[var(--cv-line)] px-4">
+                    <div className="flex items-center gap-2">
+                        <div className="h-2.5 w-2.5 border border-[var(--cv-ink)]" />
+                        <div className="h-2.5 w-2.5 border border-[var(--cv-accent)] bg-[var(--cv-accent)]" />
+                        <div className="h-2.5 w-2.5 border border-[var(--cv-ink)]" />
+                    </div>
+                    <span className="max-w-[12rem] truncate text-[10px] uppercase text-[var(--cv-muted)]">
+                        {project.slug}
+                    </span>
+                </div>
+                <div className="flex-1 overflow-hidden">
+                    <BlurImage
+                        src={project.thumbnail}
+                        alt={project.title}
+                        className="h-full w-full object-cover object-top grayscale transition-all duration-500 group-hover:grayscale-0"
+                        containerClassName="h-full w-full"
+                    />
+                </div>
+            </div>
+        </div>
+    </div>
+);
+
+const DataVisual = ({ featured = false }: { featured?: boolean }) => (
+    <div className={`${featured ? 'aspect-[16/11]' : 'aspect-[16/10]'} border border-[var(--cv-line)] bg-[var(--cv-paper-soft)] p-4`}>
+        <div className="grid h-full grid-cols-[0.8fr_1.2fr] gap-4 border border-[var(--cv-line)] bg-[var(--cv-paper)] p-4">
+            <div className="flex flex-col justify-between border-r border-[var(--cv-line)] pr-4">
+                <div>
+                    <p className="text-[10px] uppercase text-[var(--cv-muted)]">Dataset</p>
+                    <p className="mt-2 text-4xl font-black tracking-[-0.06em] text-[var(--cv-accent)]">842k</p>
+                    <p className="mt-1 text-xs text-[var(--cv-muted)]">posts analisados</p>
+                </div>
+                <div className="space-y-2">
+                    <div className="h-1.5 bg-[var(--cv-accent)]" />
+                    <div className="h-1.5 w-4/5 bg-[var(--cv-ink)]/45" />
+                    <div className="h-1.5 w-3/5 bg-[var(--cv-line)]" />
+                </div>
+            </div>
+            <div className="grid grid-rows-[1fr_auto] gap-4">
+                <div className="flex items-end gap-2 border-b border-[var(--cv-line)] pb-4">
+                    {[38, 70, 52, 86, 60].map((height, index) => (
+                        <div
+                            key={height}
+                            className="w-full border border-[var(--cv-ink)] bg-[var(--cv-accent)]/20"
+                            style={{ height: `${height}%`, opacity: index % 2 ? 0.82 : 0.48 }}
+                        />
+                    ))}
+                </div>
+                <div className="grid grid-cols-5 gap-2">
+                    {Array.from({ length: 15 }).map((_, index) => (
+                        <div
+                            key={index}
+                            className="aspect-square border border-[var(--cv-line)]"
+                            style={{ background: index % 3 === 0 ? 'var(--cv-accent)' : 'transparent', opacity: index % 3 === 0 ? 0.6 : 1 }}
+                        />
+                    ))}
+                </div>
+            </div>
+        </div>
+    </div>
+);
+
+const MobileVisual = ({ featured = false }: { featured?: boolean }) => (
+    <div className={`${featured ? 'aspect-[16/11]' : 'aspect-[16/10]'} overflow-hidden border border-[var(--cv-line)] bg-[var(--cv-paper-soft)] p-4`}>
+        <div className="flex h-full items-center justify-center gap-4 border border-[var(--cv-line)] bg-[var(--cv-paper)] px-4">
+            <div className="hidden h-[76%] w-24 border border-[var(--cv-line)] p-2 md:block">
+                <div className="h-full border border-[var(--cv-line-soft)] p-3">
+                    <div className="h-4 w-14 bg-[var(--cv-line)]" />
+                    <div className="mt-5 space-y-3">
+                        <div className="h-12 border border-[var(--cv-line)] bg-[var(--cv-accent)]/12" />
+                        <div className="h-9 border border-[var(--cv-line)]" />
+                        <div className="h-9 border border-[var(--cv-line)]" />
+                    </div>
+                </div>
+            </div>
+            <div className="h-[88%] w-44 border border-[var(--cv-ink)] bg-[var(--cv-paper-soft)] p-2 shadow-[0_16px_40px_var(--cv-shadow)]">
+                <div className="flex h-full flex-col border border-[var(--cv-line)] bg-[var(--cv-paper)] p-3">
+                    <div className="mx-auto h-1.5 w-16 bg-[var(--cv-line)]" />
+                    <div className="mt-4 border border-[var(--cv-line)] bg-[var(--cv-accent)]/10 p-3">
+                        <p className="text-[10px] uppercase text-[var(--cv-muted)]">SECOMP</p>
+                        <p className="mt-1 text-sm font-bold leading-tight text-[var(--cv-ink)]">Check-in e agenda</p>
+                    </div>
+                    <div className="mt-4 grid grid-cols-2 gap-3">
+                        <div className="border border-[var(--cv-line)] p-3">
+                            <div className="h-10 bg-[var(--cv-line-soft)]" />
+                            <div className="mt-3 h-1.5 w-3/4 bg-[var(--cv-line)]" />
+                        </div>
+                        <div className="border border-[var(--cv-line)] p-3">
+                            <div className="h-10 bg-[var(--cv-accent)]/20" />
+                            <div className="mt-3 h-1.5 w-2/3 bg-[var(--cv-line)]" />
+                        </div>
+                    </div>
+                    <div className="mt-4 flex-1 border border-[var(--cv-line)] p-3">
+                        <div className="space-y-3">
+                            <div className="h-8 border border-[var(--cv-line)]" />
+                            <div className="h-8 border border-[var(--cv-line)]" />
+                            <div className="h-8 border border-[var(--cv-accent)] bg-[var(--cv-accent)]/12" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+);
+
+const TechBadge = ({ tech }: { tech: string }) => {
+    const icon = getTechIcon(tech);
+
+    return (
+        <span className="inline-flex items-center gap-2 border border-[var(--cv-line)] bg-[var(--cv-surface)] px-2.5 py-1.5 text-xs text-[var(--cv-ink)]">
+            {icon ? (
+                <BlurImage
+                    src={icon}
+                    alt={tech}
+                    className="h-4 w-4 object-contain grayscale"
+                    containerClassName="h-4 w-4"
+                />
+            ) : (
+                <span className="h-1.5 w-1.5 bg-[var(--cv-accent)]" />
+            )}
+            <span>{tech}</span>
+        </span>
+    );
+};
+
+const ProjectActions = ({
+    project,
+    primaryLabel,
+    secondaryLabel,
+}: {
+    project: Project;
+    primaryLabel: string;
+    secondaryLabel: string;
+}) => (
+    <div className="mt-auto flex flex-wrap gap-3 pt-6">
+        {project.details.links.github && (
+            <ProjectLink href={project.details.links.github} primary>
+                {primaryLabel}
+            </ProjectLink>
+        )}
+        {project.details.links.live && (
+            <ProjectLink href={project.details.links.live}>
+                {secondaryLabel}
+            </ProjectLink>
+        )}
+    </div>
+);
+
+const ProjectLink = ({
+    children,
+    href,
+    primary = false,
+}: {
+    children: React.ReactNode;
+    href: string;
+    primary?: boolean;
+}) => (
+    <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={primary ? 'cv-button cv-button-primary' : 'cv-button cv-button-ghost'}
+    >
+        {children}
+    </a>
+);
 
 export default ProjectShowcase;

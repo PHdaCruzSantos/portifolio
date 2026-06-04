@@ -1,10 +1,310 @@
 @import "tailwindcss";
 
+:root {
+  --cv-paper: #f7f1e4;
+  --cv-paper-soft: #fffaf0;
+  --cv-ink: #161616;
+  --cv-muted: #5f5147;
+  --cv-accent: #d73700;
+  --cv-line: rgba(22, 22, 22, 0.28);
+  --cv-line-soft: rgba(22, 22, 22, 0.14);
+  --cv-surface: rgba(255, 250, 240, 0.72);
+  --cv-surface-strong: #fffaf0;
+  --cv-inverse: #fffaf0;
+  --cv-shadow: rgba(22, 22, 22, 0.08);
+  --globe-pulse-color: var(--cv-accent);
+}
+
+html[data-theme="dark"] {
+  --cv-paper: #202020;
+  --cv-paper-soft: #282828;
+  --cv-ink: #f1eee8;
+  --cv-muted: #b7aea4;
+  --cv-accent: #f0eee8;
+  --cv-line: rgba(241, 238, 232, 0.3);
+  --cv-line-soft: rgba(241, 238, 232, 0.13);
+  --cv-surface: rgba(40, 40, 40, 0.72);
+  --cv-surface-strong: #282828;
+  --cv-inverse: #202020;
+  --cv-shadow: rgba(0, 0, 0, 0.28);
+}
+
+html[data-theme="white"] {
+  --cv-paper: #f8f8f6;
+  --cv-paper-soft: #ffffff;
+  --cv-ink: #080808;
+  --cv-muted: #4e4e4b;
+  --cv-accent: #080808;
+  --cv-line: rgba(8, 8, 8, 0.26);
+  --cv-line-soft: rgba(8, 8, 8, 0.12);
+  --cv-surface: rgba(255, 255, 255, 0.74);
+  --cv-surface-strong: #ffffff;
+  --cv-inverse: #ffffff;
+  --cv-shadow: rgba(8, 8, 8, 0.07);
+}
+
+html[data-theme="gray"] {
+  --cv-paper: #d6d8dd;
+  --cv-paper-soft: #e5e7eb;
+  --cv-ink: #111318;
+  --cv-muted: #525760;
+  --cv-accent: #111318;
+  --cv-line: rgba(17, 19, 24, 0.28);
+  --cv-line-soft: rgba(17, 19, 24, 0.13);
+  --cv-surface: rgba(229, 231, 235, 0.68);
+  --cv-surface-strong: #e5e7eb;
+  --cv-inverse: #f8f8f6;
+  --cv-shadow: rgba(17, 19, 24, 0.09);
+}
+
 html {
   scroll-behavior: smooth;
 }
 
+html.theme-changing *,
+html.theme-changing *::before,
+html.theme-changing *::after {
+  transition-duration: 700ms;
+  transition-property: background-color, border-color, box-shadow, color, fill, opacity, stroke, -webkit-text-stroke-color;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ─── View Transition: circular ripple from globe ─────────────────────────
+   The actual clip-path keyframes are injected dynamically by PillNav
+   so they reference the globe's live screen position.
+   These declarations set z-index and base timing. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 680ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  mix-blend-mode: normal;
+}
+
+/* ─── Body ─────────────────────────────────────────────────────────────── */
 body {
-  @apply text-white;
-  background-color: #0f0c29;
+  @apply antialiased;
+  margin: 0;
+  min-width: 320px;
+  background-color: var(--cv-paper);
+  color: var(--cv-ink);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  transition: background-color 700ms cubic-bezier(0.16, 1, 0.3, 1), color 700ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body::selection {
+  background: color-mix(in srgb, var(--cv-accent) 22%, transparent);
+}
+
+.cv-grid {
+  background-image:
+    linear-gradient(var(--cv-line-soft) 1px, transparent 1px),
+    linear-gradient(90deg, var(--cv-line-soft) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+
+.cv-kicker {
+  margin-bottom: 1rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--cv-ink) 35%, transparent);
+  padding-bottom: 0.6rem;
+  color: var(--cv-accent);
+  font-size: 0.72rem;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.cv-section-title {
+  color: var(--cv-ink);
+  font-size: clamp(2.6rem, 7vw, 6rem);
+  font-weight: 900;
+  letter-spacing: -0.075em;
+  line-height: 0.85;
+  text-transform: uppercase;
+}
+
+.cv-outline-text {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--cv-ink);
+  -webkit-text-stroke-color: var(--cv-ink);
+}
+
+.cv-editorial-card {
+  border: 1px solid var(--cv-line);
+  background: var(--cv-surface);
+  box-shadow: 0 18px 60px var(--cv-shadow);
+}
+
+.cv-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-bottom: 1px solid var(--cv-line);
+  padding-bottom: 0.6rem;
+  color: var(--cv-accent);
+  font-size: 0.72rem;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.cv-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid currentColor;
+  padding: 0.95rem 1.25rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+  transition: background-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.cv-button:hover {
+  transform: translateY(-2px);
+}
+
+.cv-button-primary {
+  background: var(--cv-accent);
+  border-color: var(--cv-accent);
+  color: var(--cv-inverse);
+}
+
+.cv-button-ghost {
+  color: var(--cv-ink);
+}
+
+.cv-button-ghost:hover {
+  background: var(--cv-ink);
+  border-color: var(--cv-ink);
+  color: var(--cv-inverse);
+}
+
+/* ─── Wire Globe Mark ──────────────────────────────────────────────────── */
+.wire-globe-mark {
+  transform-origin: center;
+}
+
+.wire-globe-art {
+  -webkit-mask: url("/globe-icon.svg") center / contain no-repeat;
+  mask: url("/globe-icon.svg") center / contain no-repeat;
+}
+
+/* Ripple ring elements (three concentric expanding circles) */
+.globe-ripple {
+  position: absolute;
+  inset: -10%;
+  border-radius: 9999px;
+  border: 1.5px solid var(--globe-pulse-color, var(--cv-accent));
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.9);
+}
+
+/* Triggered by JS adding .globe-pulsing to the container */
+.globe-pulsing {
+  animation: cv-globe-body-pulse 680ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.globe-pulsing .globe-ripple-1 {
+  animation: cv-globe-ring 720ms 0ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.globe-pulsing .globe-ripple-2 {
+  animation: cv-globe-ring 720ms 80ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.globe-pulsing .globe-ripple-3 {
+  animation: cv-globe-ring 720ms 160ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes cv-globe-body-pulse {
+  0%   { transform: scale(1);     filter: drop-shadow(0 0  0px color-mix(in srgb, var(--globe-pulse-color, var(--cv-accent)) 0%, transparent)); }
+  30%  { transform: scale(1.06);  filter: drop-shadow(0 0 28px color-mix(in srgb, var(--globe-pulse-color, var(--cv-accent)) 55%, transparent)); }
+  65%  { transform: scale(0.975); filter: drop-shadow(0 0 10px color-mix(in srgb, var(--globe-pulse-color, var(--cv-accent)) 22%, transparent)); }
+  100% { transform: scale(1);     filter: drop-shadow(0 0  0px color-mix(in srgb, var(--globe-pulse-color, var(--cv-accent)) 0%, transparent)); }
+}
+
+@keyframes cv-globe-ring {
+  0%   { opacity: 0.7; transform: scale(0.9); }
+  60%  { opacity: 0.15; }
+  100% { opacity: 0;   transform: scale(2.2); }
+}
+
+/* Legacy theme-change pulse (kept as fallback) */
+.wire-globe-mark::before,
+.wire-globe-mark::after {
+  content: "";
+  position: absolute;
+  inset: -18%;
+  border: 1px solid var(--cv-accent);
+  border-radius: 9999px;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.82);
+}
+
+html.theme-changing .wire-globe-mark {
+  animation: cv-globe-pulse 760ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html.theme-changing .wire-globe-mark::before {
+  animation: cv-globe-wave 760ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html.theme-changing .wire-globe-mark::after {
+  animation: cv-globe-wave 760ms 90ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes cv-globe-pulse {
+  0% {
+    filter: drop-shadow(0 0 0 color-mix(in srgb, var(--cv-accent) 0%, transparent));
+    transform: scale(1);
+  }
+  38% {
+    filter: drop-shadow(0 0 22px color-mix(in srgb, var(--cv-accent) 42%, transparent));
+    transform: scale(1.045);
+  }
+  100% {
+    filter: drop-shadow(0 0 0 color-mix(in srgb, var(--cv-accent) 0%, transparent));
+    transform: scale(1);
+  }
+}
+
+@keyframes cv-globe-wave {
+  0% {
+    opacity: 0.5;
+    transform: scale(0.84);
+  }
+  70% {
+    opacity: 0.12;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.45);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.theme-changing *,
+  html.theme-changing *::before,
+  html.theme-changing *::after,
+  body {
+    transition-duration: 1ms;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 1ms;
+  }
+
+  html.theme-changing .wire-globe-mark,
+  html.theme-changing .wire-globe-mark::before,
+  html.theme-changing .wire-globe-mark::after,
+  .globe-pulsing,
+  .globe-pulsing .globe-ripple-1,
+  .globe-pulsing .globe-ripple-2,
+  .globe-pulsing .globe-ripple-3 {
+    animation: none;
+  }
 }

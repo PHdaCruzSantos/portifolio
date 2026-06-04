@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content="Portfólio de Pedro Henrique - Desenvolvedor Full Stack Júnior. Estudante de Sistemas de Informação na UFOP. Projetos em React, Vue.js, Node.js e mais." />
-    <meta name="theme-color" content="#0f0f0f" />
+    <meta name="theme-color" content="#f7f1e4" />
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
@@ -11,9 +11,16 @@
     <meta property="og:description" content="Portfólio de Pedro Henrique - Transformando ideias em soluções reais com código." />
     <meta property="og:image" content="/prev.png" />
 
-    <link rel="icon" type="image/svg+xml" href="/logo.png" />
+    <link rel="icon" type="image/svg+xml" href="/globe-icon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pedro Henrique | Desenvolvedor Full Stack</title>
+    <script>
+      (() => {
+        const themes = ["light-orange", "dark", "white", "gray"];
+        const savedTheme = localStorage.getItem("portfolio-theme");
+        document.documentElement.dataset.theme = themes.includes(savedTheme) ? savedTheme : "light-orange";
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

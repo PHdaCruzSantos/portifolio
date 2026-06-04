@@ -14,15 +14,15 @@ const AnimatedBackground = () => {
         canvas.height = window.innerHeight;
 
         const particles: { x: number; y: number; dx: number; dy: number; size: number }[] = [];
-        const particleCount = 50;
+        const particleCount = 34;
 
         for (let i = 0; i < particleCount; i++) {
             particles.push({
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
-                dx: (Math.random() - 0.5) * 0.5,
-                dy: (Math.random() - 0.5) * 0.5,
-                size: Math.random() * 2 + 1,
+                dx: (Math.random() - 0.5) * 0.22,
+                dy: (Math.random() - 0.5) * 0.22,
+                size: Math.random() * 1.6 + 0.8,
             });
         }
 
@@ -30,16 +30,31 @@ const AnimatedBackground = () => {
             requestAnimationFrame(animate);
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Draw Gradient Background
             const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-            gradient.addColorStop(0, '#0f0c29'); // Dark purple/blue
-            gradient.addColorStop(0.5, '#302b63'); // Purple
-            gradient.addColorStop(1, '#24243e'); // Darker blue
+            gradient.addColorStop(0, '#080a0f');
+            gradient.addColorStop(0.48, '#10151d');
+            gradient.addColorStop(1, '#071311');
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+            ctx.strokeStyle = 'rgba(148, 163, 184, 0.045)';
+            ctx.lineWidth = 1;
+            const grid = 64;
+            for (let x = 0; x < canvas.width; x += grid) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, canvas.height);
+                ctx.stroke();
+            }
+            for (let y = 0; y < canvas.height; y += grid) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.stroke();
+            }
+
             // Update and draw particles
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.fillStyle = 'rgba(94, 234, 212, 0.14)';
             particles.forEach((particle) => {
                 particle.x += particle.dx;
                 particle.y += particle.dy;
@@ -53,7 +68,7 @@ const AnimatedBackground = () => {
             });
             
             // Draw connections
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+            ctx.strokeStyle = 'rgba(94, 234, 212, 0.055)';
             ctx.lineWidth = 0.5;
             for (let i = 0; i < particles.length; i++) {
                 for (let j = i + 1; j < particles.length; j++) {
