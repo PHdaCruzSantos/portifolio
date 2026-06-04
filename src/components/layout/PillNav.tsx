@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import ThemeSwitcher from '../ui/ThemeSwitcher';
 
 const navItems = [
     { name: 'Início', id: 'hero' },
@@ -32,7 +33,7 @@ const PillNav = () => {
         <>
             {/* DESKTOP NAV: Centered Pill */}
             <div className="hidden md:block fixed top-6 left-1/2 -translate-x-1/2 z-50">
-                <nav className="flex items-center gap-2 p-2 bg-[var(--cv-paper)]/85 backdrop-blur-md border border-[var(--cv-ink)]/25 shadow-none">
+                <nav className="flex items-center gap-2 border border-[var(--cv-ink)]/25 bg-[var(--cv-paper)]/90 p-2 shadow-none backdrop-blur-md">
                     {navItems.map((item) => (
                         <a
                             key={item.id}
@@ -52,6 +53,9 @@ const PillNav = () => {
                             <span className="relative z-10">{item.name}</span>
                         </a>
                     ))}
+                    <div className="ml-2 border-l border-[var(--cv-ink)]/20 pl-2">
+                        <ThemeSwitcher compact />
+                    </div>
                 </nav>
             </div>
 
@@ -97,9 +101,9 @@ const PillNav = () => {
                             animate={{ x: 0 }}
                             exit={{ x: "100%" }}
                             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                            className="fixed top-0 right-0 h-full w-3/4 max-w-sm bg-[var(--cv-paper)] border-l border-[var(--cv-ink)]/25 shadow-2xl z-50 md:hidden p-8 flex flex-col"
+                            className="fixed top-0 right-0 z-50 flex h-full w-3/4 max-w-sm flex-col border-l border-[var(--cv-ink)]/25 bg-[var(--cv-paper)] p-8 shadow-2xl md:hidden"
                         >
-                            <div className="flex-1 flex flex-col justify-center gap-6">
+                            <div className="flex flex-1 flex-col justify-center gap-6">
                                 {navItems.map((item, index) => (
                                     <motion.a
                                         key={item.id}
@@ -118,8 +122,10 @@ const PillNav = () => {
                                 ))}
                             </div>
 
-                            <div className="pt-8 border-t border-[var(--cv-ink)]/20">
-                                <p className="text-[var(--cv-muted)] text-sm">© 2026. Pedro Henrique</p>
+                            <div className="border-t border-[var(--cv-ink)]/20 pt-8">
+                                <p className="mb-3 text-xs font-bold uppercase text-[var(--cv-accent)]">Tema</p>
+                                <ThemeSwitcher />
+                                <p className="mt-5 text-sm text-[var(--cv-muted)]">© 2026. Pedro Henrique</p>
                             </div>
                         </motion.div>
                     </>

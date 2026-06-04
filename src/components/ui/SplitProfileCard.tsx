@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import BlurImage from './BlurImage';
 import StarburstMark from './StarburstMark';
+import WireGlobeMark from './WireGlobeMark';
 
 interface SplitProfileCardProps {
     name: string;
@@ -21,7 +22,10 @@ const SplitProfileCard = ({ name, role, imageUrl }: SplitProfileCardProps) => {
         >
             <div className="flex flex-col gap-8 border-b border-[var(--cv-ink)]/25 pb-8 md:border-b-0 md:border-r md:pb-0 md:pr-10">
                 <div className="flex items-start justify-between gap-6">
-                    <StarburstMark className="h-28 w-28 shrink-0 text-[var(--cv-accent)]" />
+                    <div className="relative shrink-0">
+                        <WireGlobeMark className="h-28 w-28 text-[var(--cv-accent)]" />
+                        <StarburstMark className="absolute -bottom-3 -right-3 h-10 w-10 text-[var(--cv-ink)]/55" />
+                    </div>
                     <span className="text-xs uppercase tracking-[0.2em] text-[var(--cv-muted)]">Perfil / 06</span>
                 </div>
 

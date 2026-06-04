@@ -45,36 +45,39 @@ const gridProjects = projects.filter((project) => !featuredProjectIds.has(projec
 
 const ProjectShowcase = () => {
     return (
-        <div className="mx-auto flex w-full max-w-7xl flex-col gap-10 px-6 py-10">
-            <div className="grid gap-5 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.6fr)]">
-                <div className="rounded-[2rem] border border-white/10 bg-white/[0.03] p-7 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-sm">
-                    <span className="inline-flex rounded-full border border-teal-300/25 bg-teal-300/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.28em] text-teal-200">
-                        Projetos em destaque
-                    </span>
-                    <h3 className="mt-5 max-w-sm text-2xl font-semibold tracking-tight text-white md:text-3xl">
-                        Solucoes que mostram como eu transformo ideia em produto.
-                    </h3>
-                    <p className="mt-4 max-w-md text-sm leading-7 text-slate-300 md:text-base">
-                        Da extensao que acelera operacao ao app mobile com backend estruturado, cada projeto foi selecionado para mostrar capacidade real de entrega em produto, dados e full stack.
-                    </p>
+        <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-6 py-10">
+            <div className="grid gap-5 border-y border-[var(--cv-line)] py-6 lg:grid-cols-[0.8fr_1.2fr]">
+                <aside className="flex flex-col justify-between gap-8 border-b border-[var(--cv-line)] pb-6 lg:border-b-0 lg:border-r lg:pb-0 lg:pr-8">
+                    <div>
+                        <div className="cv-meta-row">
+                            <span>Projetos em destaque</span>
+                            <span className="ml-auto">08</span>
+                        </div>
+                        <h3 className="mt-5 max-w-md text-3xl font-black uppercase leading-[0.86] tracking-[-0.07em] text-[var(--cv-accent)] md:text-5xl">
+                            Soluções com cara de produto.
+                        </h3>
+                        <p className="mt-5 max-w-md text-sm leading-snug text-[var(--cv-muted)] md:text-base">
+                            Da extensão que acelera operação ao app mobile com backend estruturado, cada projeto mostra entrega real em produto, dados e full stack.
+                        </p>
+                    </div>
 
-                    <div className="mt-8 grid gap-4 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+                    <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
                         <StatCard value="2" label="Extensões de navegador" />
                         <StatCard value="3" label="Produtos full stack e dashboards" />
                         <StatCard value="2" label="Dados e mobile" />
                     </div>
-                </div>
+                </aside>
 
                 <div className="grid gap-5 md:grid-cols-2">
-                    {featuredProjects.map((project) => (
-                        <FeaturedProjectCard key={project.id} project={project} />
+                    {featuredProjects.map((project, index) => (
+                        <FeaturedProjectCard key={project.id} project={project} index={index + 1} />
                     ))}
                 </div>
             </div>
 
-            <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-                {gridProjects.map((project) => (
-                    <ProjectCard key={project.id} project={project} />
+            <div className="grid gap-px overflow-hidden border border-[var(--cv-line)] bg-[var(--cv-line)] md:grid-cols-2 xl:grid-cols-3">
+                {gridProjects.map((project, index) => (
+                    <ProjectCard key={project.id} project={project} index={index + featuredProjects.length + 1} />
                 ))}
             </div>
         </div>
@@ -82,30 +85,27 @@ const ProjectShowcase = () => {
 };
 
 const StatCard = ({ value, label }: { value: string; label: string }) => (
-    <div className="rounded-2xl border border-white/10 bg-[#0b1018] p-4">
-        <p className="text-2xl font-semibold text-white">{value}</p>
-        <p className="mt-2 text-sm leading-6 text-slate-400">{label}</p>
+    <div className="border border-[var(--cv-line)] bg-[var(--cv-surface)] p-4">
+        <p className="text-3xl font-black leading-none tracking-[-0.06em] text-[var(--cv-accent)]">{value}</p>
+        <p className="mt-3 text-xs uppercase leading-snug text-[var(--cv-muted)]">{label}</p>
     </div>
 );
 
-const FeaturedProjectCard = ({ project }: { project: Project }) => (
-    <article className="group overflow-hidden rounded-[2rem] border border-white/10 bg-[#0b1018]/90 shadow-[0_24px_80px_rgba(0,0,0,0.32)] transition-transform duration-300 hover:-translate-y-1">
-        <div className={`relative overflow-hidden bg-gradient-to-br ${project.color} p-5`}>
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.16),transparent_36%),linear-gradient(rgba(255,255,255,.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.05)_1px,transparent_1px)] bg-[size:auto,28px_28px,28px_28px]" />
-            <div className="relative">
-                <ProjectVisual project={project} featured />
-            </div>
-        </div>
+const FeaturedProjectCard = ({ project, index }: { project: Project; index: number }) => (
+    <article className="group flex min-h-full flex-col border border-[var(--cv-line)] bg-[var(--cv-surface)] transition-transform duration-300 hover:-translate-y-1">
+        <ProjectVisual project={project} featured />
 
-        <div className="p-6">
-            <div className="flex flex-wrap items-center gap-2 text-xs uppercase tracking-[0.24em] text-slate-400">
+        <div className="flex flex-1 flex-col p-5">
+            <div className="cv-meta-row">
+                <span>{String(index).padStart(2, '0')}</span>
                 <span>{project.year}</span>
-                <span className="h-1 w-1 rounded-full bg-slate-600" />
-                <span>{project.category}</span>
+                <span className="ml-auto">{project.category}</span>
             </div>
 
-            <h3 className="mt-4 text-2xl font-semibold tracking-tight text-white">{project.title}</h3>
-            <p className="mt-3 text-sm leading-7 text-slate-300">{project.details.overview.description}</p>
+            <h3 className="mt-5 text-3xl font-black uppercase leading-[0.88] tracking-[-0.07em] text-[var(--cv-ink)]">
+                {project.title}
+            </h3>
+            <p className="mt-4 text-sm leading-snug text-[var(--cv-muted)]">{project.details.overview.description}</p>
 
             <div className="mt-5 flex flex-wrap gap-2">
                 {project.details.overview.stack.slice(0, 4).map((tech) => (
@@ -113,77 +113,53 @@ const FeaturedProjectCard = ({ project }: { project: Project }) => (
                 ))}
             </div>
 
-            <div className="mt-6 flex flex-wrap gap-3">
-                {project.details.links.github && (
-                    <ProjectLink href={project.details.links.github} primary>
-                        Ver código
-                    </ProjectLink>
-                )}
-                {project.details.links.live && (
-                    <ProjectLink href={project.details.links.live}>
-                        {project.details.links.demoConfig?.label || 'Abrir demo'}
-                    </ProjectLink>
-                )}
-            </div>
+            <ProjectActions project={project} primaryLabel="Ver código" secondaryLabel={project.details.links.demoConfig?.label || 'Abrir demo'} />
         </div>
     </article>
 );
 
-const ProjectCard = ({ project }: { project: Project }) => (
-    <article className="flex h-full flex-col rounded-[1.75rem] border border-white/10 bg-white/[0.03] p-5 shadow-[0_18px_60px_rgba(0,0,0,0.24)] backdrop-blur-sm">
-        <div className="relative overflow-hidden rounded-[1.25rem] border border-white/10 bg-[#0b1018]">
-            <ProjectVisual project={project} />
+const ProjectCard = ({ project, index }: { project: Project; index: number }) => (
+    <article className="group flex h-full flex-col bg-[var(--cv-paper)] p-5">
+        <ProjectVisual project={project} />
+
+        <div className="mt-5 cv-meta-row">
+            <span>{String(index).padStart(2, '0')}</span>
+            <span>{project.year}</span>
+            <span className="ml-auto">{project.category}</span>
         </div>
 
-        <div className="mt-5 flex items-center justify-between gap-4">
-            <div>
-                <p className="text-xs uppercase tracking-[0.24em] text-slate-500">{project.category}</p>
-                <h3 className="mt-2 text-xl font-semibold tracking-tight text-white">{project.title}</h3>
-            </div>
-            <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs text-slate-300">
-                {project.year}
-            </span>
-        </div>
+        <h3 className="mt-5 text-2xl font-black uppercase leading-[0.9] tracking-[-0.06em] text-[var(--cv-ink)]">
+            {project.title}
+        </h3>
 
-        <p className="mt-4 text-sm leading-7 text-slate-300">{project.details.overview.description}</p>
+        <p className="mt-4 text-sm leading-snug text-[var(--cv-muted)]">{project.details.overview.description}</p>
 
-        <div className="mt-5 space-y-3">
+        <div className="mt-5 space-y-3 border-t border-[var(--cv-line)] pt-4">
             {project.details.highlights.slice(0, 2).map((highlight) => (
-                <div key={highlight} className="flex gap-3 text-sm leading-6 text-slate-400">
-                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-teal-300" />
+                <div key={highlight} className="grid grid-cols-[1.2rem_1fr] gap-3 text-sm leading-snug text-[var(--cv-muted)]">
+                    <span className="mt-1.5 h-px w-full bg-[var(--cv-accent)]" />
                     <span>{highlight}</span>
                 </div>
             ))}
         </div>
 
-        <div className="mt-6 flex flex-wrap gap-2">
+        <div className="mt-5 flex flex-wrap gap-2">
             {project.details.overview.stack.slice(0, 5).map((tech) => (
                 <TechBadge key={tech} tech={tech} />
             ))}
         </div>
 
-        <div className="mt-6 flex flex-wrap gap-3">
-            {project.details.links.github && (
-                <ProjectLink href={project.details.links.github} primary={false}>
-                    GitHub
-                </ProjectLink>
-            )}
-            {project.details.links.live && (
-                <ProjectLink href={project.details.links.live}>
-                    {project.details.links.demoConfig?.label || 'Demo'}
-                </ProjectLink>
-            )}
-        </div>
+        <ProjectActions project={project} primaryLabel="GitHub" secondaryLabel={project.details.links.demoConfig?.label || 'Demo'} />
     </article>
 );
 
 const ProjectVisual = ({ project, featured = false }: { project: Project; featured?: boolean }) => {
     if (project.thumbnail === 'visual:data') {
-        return <DataVisual />;
+        return <DataVisual featured={featured} />;
     }
 
     if (project.thumbnail === 'visual:mobile') {
-        return <MobileVisual />;
+        return <MobileVisual featured={featured} />;
     }
 
     if (project.imageFit === 'contain') {
@@ -191,11 +167,11 @@ const ProjectVisual = ({ project, featured = false }: { project: Project; featur
     }
 
     return (
-        <div className={`${featured ? 'aspect-[16/11]' : 'aspect-[16/10]'} overflow-hidden`}>
+        <div className={`${featured ? 'aspect-[16/11]' : 'aspect-[16/10]'} overflow-hidden border border-[var(--cv-line)] bg-[var(--cv-paper-soft)]`}>
             <BlurImage
                 src={project.thumbnail}
                 alt={project.title}
-                className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+                className="h-full w-full object-cover object-top grayscale transition-all duration-500 group-hover:scale-[1.03] group-hover:grayscale-0"
                 containerClassName="h-full w-full"
             />
         </div>
@@ -203,24 +179,17 @@ const ProjectVisual = ({ project, featured = false }: { project: Project; featur
 };
 
 const ExtensionVisual = ({ project, featured = false }: { project: Project; featured?: boolean }) => (
-    <div className={`${featured ? 'aspect-[16/11]' : 'aspect-[16/10]'} relative overflow-hidden`}>
-        <div className="absolute inset-0">
-            <img
-                src={project.thumbnail}
-                alt=""
-                className="h-full w-full scale-110 object-cover"
-                style={{ filter: 'blur(26px) brightness(0.3) saturate(1.1)' }}
-            />
-        </div>
-        <div className="relative flex h-full items-center justify-center p-5">
-            <div className="flex h-full w-full max-w-[26rem] flex-col overflow-hidden rounded-[1.4rem] border border-white/15 bg-[#06080d]/90 shadow-[0_20px_70px_rgba(0,0,0,0.45)]">
-                <div className="flex h-11 items-center justify-between border-b border-white/10 bg-white/[0.04] px-4">
+    <div className={`${featured ? 'aspect-[16/11]' : 'aspect-[16/10]'} relative overflow-hidden border border-[var(--cv-line)] bg-[var(--cv-paper-soft)] p-4`}>
+        <div className="absolute inset-0 opacity-50 cv-grid" />
+        <div className="relative flex h-full items-center justify-center">
+            <div className="flex h-full w-full max-w-[26rem] flex-col overflow-hidden border border-[var(--cv-line)] bg-[var(--cv-paper)] shadow-[0_18px_50px_var(--cv-shadow)]">
+                <div className="flex h-10 items-center justify-between border-b border-[var(--cv-line)] px-4">
                     <div className="flex items-center gap-2">
-                        <div className="h-3 w-3 rounded-full bg-rose-400/70" />
-                        <div className="h-3 w-3 rounded-full bg-amber-300/70" />
-                        <div className="h-3 w-3 rounded-full bg-emerald-400/70" />
+                        <div className="h-2.5 w-2.5 border border-[var(--cv-ink)]" />
+                        <div className="h-2.5 w-2.5 border border-[var(--cv-accent)] bg-[var(--cv-accent)]" />
+                        <div className="h-2.5 w-2.5 border border-[var(--cv-ink)]" />
                     </div>
-                    <span className="max-w-[12rem] truncate text-[11px] uppercase tracking-[0.24em] text-slate-400">
+                    <span className="max-w-[12rem] truncate text-[10px] uppercase text-[var(--cv-muted)]">
                         {project.slug}
                     </span>
                 </div>
@@ -228,7 +197,7 @@ const ExtensionVisual = ({ project, featured = false }: { project: Project; feat
                     <BlurImage
                         src={project.thumbnail}
                         alt={project.title}
-                        className="h-full w-full object-cover object-top"
+                        className="h-full w-full object-cover object-top grayscale transition-all duration-500 group-hover:grayscale-0"
                         containerClassName="h-full w-full"
                     />
                 </div>
@@ -237,114 +206,82 @@ const ExtensionVisual = ({ project, featured = false }: { project: Project; feat
     </div>
 );
 
-const DataVisual = () => (
-    <div className="aspect-[16/10] bg-[#071018] p-4">
-        <div className="flex h-full gap-4 rounded-[1.2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(14,21,35,0.96),rgba(8,13,22,0.96))] p-4">
-            <div className="flex w-[28%] flex-col gap-3">
-                <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3">
-                    <p className="text-[10px] uppercase tracking-[0.24em] text-slate-500">Dataset</p>
-                    <p className="mt-3 text-xl font-semibold text-white">842k</p>
-                    <p className="mt-1 text-xs text-slate-400">posts analisados</p>
+const DataVisual = ({ featured = false }: { featured?: boolean }) => (
+    <div className={`${featured ? 'aspect-[16/11]' : 'aspect-[16/10]'} border border-[var(--cv-line)] bg-[var(--cv-paper-soft)] p-4`}>
+        <div className="grid h-full grid-cols-[0.8fr_1.2fr] gap-4 border border-[var(--cv-line)] bg-[var(--cv-paper)] p-4">
+            <div className="flex flex-col justify-between border-r border-[var(--cv-line)] pr-4">
+                <div>
+                    <p className="text-[10px] uppercase text-[var(--cv-muted)]">Dataset</p>
+                    <p className="mt-2 text-4xl font-black tracking-[-0.06em] text-[var(--cv-accent)]">842k</p>
+                    <p className="mt-1 text-xs text-[var(--cv-muted)]">posts analisados</p>
                 </div>
-                <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3">
-                    <p className="text-[10px] uppercase tracking-[0.24em] text-slate-500">Features</p>
-                    <div className="mt-3 space-y-2">
-                        <div className="h-2 rounded-full bg-sky-300/60" />
-                        <div className="h-2 w-4/5 rounded-full bg-cyan-200/40" />
-                        <div className="h-2 w-3/5 rounded-full bg-white/20" />
-                    </div>
+                <div className="space-y-2">
+                    <div className="h-1.5 bg-[var(--cv-accent)]" />
+                    <div className="h-1.5 w-4/5 bg-[var(--cv-ink)]/45" />
+                    <div className="h-1.5 w-3/5 bg-[var(--cv-line)]" />
                 </div>
             </div>
-            <div className="flex flex-1 flex-col gap-4">
-                <div className="grid flex-1 grid-cols-[1.2fr_0.8fr] gap-4">
-                    <div className="rounded-xl border border-white/10 bg-white/[0.04] p-4">
-                        <div className="flex h-full items-end gap-2">
-                            <div className="h-[38%] w-full rounded-t-lg bg-cyan-300/40" />
-                            <div className="h-[70%] w-full rounded-t-lg bg-sky-300/60" />
-                            <div className="h-[52%] w-full rounded-t-lg bg-teal-300/50" />
-                            <div className="h-[86%] w-full rounded-t-lg bg-white/35" />
-                            <div className="h-[60%] w-full rounded-t-lg bg-cyan-100/45" />
-                        </div>
-                    </div>
-                    <div className="rounded-xl border border-white/10 bg-white/[0.04] p-4">
-                        <div className="relative mx-auto mt-2 h-28 w-28 rounded-full border-[10px] border-sky-300/50 border-t-white/20 border-r-teal-300/70" />
-                        <div className="mt-4 space-y-2">
-                            <div className="h-2 rounded-full bg-white/20" />
-                            <div className="h-2 w-2/3 rounded-full bg-sky-300/50" />
-                        </div>
-                    </div>
+            <div className="grid grid-rows-[1fr_auto] gap-4">
+                <div className="flex items-end gap-2 border-b border-[var(--cv-line)] pb-4">
+                    {[38, 70, 52, 86, 60].map((height, index) => (
+                        <div
+                            key={height}
+                            className="w-full border border-[var(--cv-ink)] bg-[var(--cv-accent)]/20"
+                            style={{ height: `${height}%`, opacity: index % 2 ? 0.82 : 0.48 }}
+                        />
+                    ))}
                 </div>
-                <div className="rounded-xl border border-white/10 bg-white/[0.04] p-4">
-                    <div className="grid grid-cols-5 gap-2">
-                        {Array.from({ length: 20 }).map((_, index) => (
-                            <div
-                                key={index}
-                                className="aspect-square rounded-lg"
-                                style={{
-                                    background: index % 4 === 0
-                                        ? 'rgba(45, 212, 191, 0.5)'
-                                        : index % 3 === 0
-                                            ? 'rgba(125, 211, 252, 0.38)'
-                                            : 'rgba(255,255,255,0.08)',
-                                }}
-                            />
-                        ))}
-                    </div>
+                <div className="grid grid-cols-5 gap-2">
+                    {Array.from({ length: 15 }).map((_, index) => (
+                        <div
+                            key={index}
+                            className="aspect-square border border-[var(--cv-line)]"
+                            style={{ background: index % 3 === 0 ? 'var(--cv-accent)' : 'transparent', opacity: index % 3 === 0 ? 0.6 : 1 }}
+                        />
+                    ))}
                 </div>
             </div>
         </div>
     </div>
 );
 
-const MobileVisual = () => (
-    <div className="aspect-[16/10] bg-[radial-gradient(circle_at_top,rgba(34,211,238,0.24),transparent_38%),#071018] p-4">
-        <div className="flex h-full items-center justify-center gap-4 rounded-[1.2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(14,21,35,0.95),rgba(8,13,22,0.95))] px-4">
-            <div className="hidden h-[78%] w-28 rounded-[1.8rem] border border-white/10 bg-white/[0.04] p-2 md:block">
-                <div className="h-full rounded-[1.2rem] border border-white/10 bg-black/30 p-3">
-                    <div className="h-4 w-16 rounded-full bg-white/15" />
+const MobileVisual = ({ featured = false }: { featured?: boolean }) => (
+    <div className={`${featured ? 'aspect-[16/11]' : 'aspect-[16/10]'} overflow-hidden border border-[var(--cv-line)] bg-[var(--cv-paper-soft)] p-4`}>
+        <div className="flex h-full items-center justify-center gap-4 border border-[var(--cv-line)] bg-[var(--cv-paper)] px-4">
+            <div className="hidden h-[76%] w-24 border border-[var(--cv-line)] p-2 md:block">
+                <div className="h-full border border-[var(--cv-line-soft)] p-3">
+                    <div className="h-4 w-14 bg-[var(--cv-line)]" />
                     <div className="mt-5 space-y-3">
-                        <div className="h-14 rounded-2xl bg-teal-300/20" />
-                        <div className="h-10 rounded-2xl bg-white/10" />
-                        <div className="h-10 rounded-2xl bg-white/10" />
+                        <div className="h-12 border border-[var(--cv-line)] bg-[var(--cv-accent)]/12" />
+                        <div className="h-9 border border-[var(--cv-line)]" />
+                        <div className="h-9 border border-[var(--cv-line)]" />
                     </div>
                 </div>
             </div>
-            <div className="h-[88%] w-44 rounded-[2rem] border border-cyan-200/20 bg-black/50 p-2 shadow-[0_16px_40px_rgba(8,145,178,0.22)]">
-                <div className="flex h-full flex-col rounded-[1.6rem] border border-white/10 bg-[#09111b] p-3">
-                    <div className="mx-auto h-1.5 w-16 rounded-full bg-white/10" />
-                    <div className="mt-4 rounded-[1.4rem] border border-cyan-200/15 bg-cyan-300/10 p-3">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-[10px] uppercase tracking-[0.24em] text-cyan-100/60">SECOMP</p>
-                                <p className="mt-1 text-sm font-semibold text-white">Check-in e agenda</p>
-                            </div>
-                            <div className="h-8 w-8 rounded-full bg-cyan-300/20" />
-                        </div>
+            <div className="h-[88%] w-44 border border-[var(--cv-ink)] bg-[var(--cv-paper-soft)] p-2 shadow-[0_16px_40px_var(--cv-shadow)]">
+                <div className="flex h-full flex-col border border-[var(--cv-line)] bg-[var(--cv-paper)] p-3">
+                    <div className="mx-auto h-1.5 w-16 bg-[var(--cv-line)]" />
+                    <div className="mt-4 border border-[var(--cv-line)] bg-[var(--cv-accent)]/10 p-3">
+                        <p className="text-[10px] uppercase text-[var(--cv-muted)]">SECOMP</p>
+                        <p className="mt-1 text-sm font-bold leading-tight text-[var(--cv-ink)]">Check-in e agenda</p>
                     </div>
                     <div className="mt-4 grid grid-cols-2 gap-3">
-                        <div className="rounded-2xl bg-white/[0.05] p-3">
-                            <div className="h-12 rounded-xl bg-white/10" />
-                            <div className="mt-3 h-2 w-3/4 rounded-full bg-white/20" />
+                        <div className="border border-[var(--cv-line)] p-3">
+                            <div className="h-10 bg-[var(--cv-line-soft)]" />
+                            <div className="mt-3 h-1.5 w-3/4 bg-[var(--cv-line)]" />
                         </div>
-                        <div className="rounded-2xl bg-white/[0.05] p-3">
-                            <div className="h-12 rounded-xl bg-cyan-300/20" />
-                            <div className="mt-3 h-2 w-2/3 rounded-full bg-white/20" />
+                        <div className="border border-[var(--cv-line)] p-3">
+                            <div className="h-10 bg-[var(--cv-accent)]/20" />
+                            <div className="mt-3 h-1.5 w-2/3 bg-[var(--cv-line)]" />
                         </div>
                     </div>
-                    <div className="mt-4 flex-1 rounded-[1.4rem] border border-white/10 bg-white/[0.04] p-3">
+                    <div className="mt-4 flex-1 border border-[var(--cv-line)] p-3">
                         <div className="space-y-3">
-                            <div className="h-10 rounded-2xl bg-white/10" />
-                            <div className="h-10 rounded-2xl bg-white/10" />
-                            <div className="h-10 rounded-2xl bg-cyan-300/18" />
+                            <div className="h-8 border border-[var(--cv-line)]" />
+                            <div className="h-8 border border-[var(--cv-line)]" />
+                            <div className="h-8 border border-[var(--cv-accent)] bg-[var(--cv-accent)]/12" />
                         </div>
                     </div>
-                </div>
-            </div>
-            <div className="hidden h-[70%] w-24 rounded-[1.6rem] border border-white/10 bg-white/[0.04] p-2 lg:block">
-                <div className="h-full rounded-[1.1rem] border border-white/10 bg-black/30 p-3">
-                    <div className="h-8 rounded-xl bg-white/10" />
-                    <div className="mt-3 h-20 rounded-2xl bg-cyan-300/15" />
-                    <div className="mt-3 h-10 rounded-xl bg-white/10" />
                 </div>
             </div>
         </div>
@@ -355,21 +292,44 @@ const TechBadge = ({ tech }: { tech: string }) => {
     const icon = getTechIcon(tech);
 
     return (
-        <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs text-slate-200">
+        <span className="inline-flex items-center gap-2 border border-[var(--cv-line)] bg-[var(--cv-surface)] px-2.5 py-1.5 text-xs text-[var(--cv-ink)]">
             {icon ? (
                 <BlurImage
                     src={icon}
                     alt={tech}
-                    className="h-4 w-4 object-contain"
+                    className="h-4 w-4 object-contain grayscale"
                     containerClassName="h-4 w-4"
                 />
             ) : (
-                <span className="h-1.5 w-1.5 rounded-full bg-teal-300" />
+                <span className="h-1.5 w-1.5 bg-[var(--cv-accent)]" />
             )}
             <span>{tech}</span>
         </span>
     );
 };
+
+const ProjectActions = ({
+    project,
+    primaryLabel,
+    secondaryLabel,
+}: {
+    project: Project;
+    primaryLabel: string;
+    secondaryLabel: string;
+}) => (
+    <div className="mt-auto flex flex-wrap gap-3 pt-6">
+        {project.details.links.github && (
+            <ProjectLink href={project.details.links.github} primary>
+                {primaryLabel}
+            </ProjectLink>
+        )}
+        {project.details.links.live && (
+            <ProjectLink href={project.details.links.live}>
+                {secondaryLabel}
+            </ProjectLink>
+        )}
+    </div>
+);
 
 const ProjectLink = ({
     children,
@@ -384,9 +344,7 @@ const ProjectLink = ({
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className={primary
-            ? 'inline-flex items-center justify-center rounded-full bg-teal-300 px-4 py-2 text-sm font-semibold text-[#071311] transition-colors hover:bg-teal-200'
-            : 'inline-flex items-center justify-center rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/[0.08]'}
+        className={primary ? 'cv-button cv-button-primary' : 'cv-button cv-button-ghost'}
     >
         {children}
     </a>

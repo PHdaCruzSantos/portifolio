@@ -64,19 +64,19 @@ const LogoLoop = ({ className = "", withTitle = true, direction = 'horizontal' }
       {/* Gradients */}
       {isVertical ? (
           <>
-            <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-black/50 to-transparent z-10 pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-black/50 to-transparent z-10 pointer-events-none" />
+            <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-[var(--cv-paper)] to-transparent z-10 pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[var(--cv-paper)] to-transparent z-10 pointer-events-none" />
           </>
       ) : (
           <>
-            <div className="absolute top-0 left-0 h-full w-24 bg-gradient-to-r from-black/30 to-transparent z-10 pointer-events-none" />
-            <div className="absolute top-0 right-0 h-full w-24 bg-gradient-to-l from-black/30 to-transparent z-10 pointer-events-none" />
+            <div className="absolute top-0 left-0 h-full w-24 bg-gradient-to-r from-[var(--cv-paper)] to-transparent z-10 pointer-events-none" />
+            <div className="absolute top-0 right-0 h-full w-24 bg-gradient-to-l from-[var(--cv-paper)] to-transparent z-10 pointer-events-none" />
           </>
       )}
 
 
       {withTitle && !isVertical && (
-      <h3 className="text-center text-sm font-semibold uppercase tracking-[0.2em] text-slate-400 mb-12">
+      <h3 className="mb-12 text-center text-sm font-semibold uppercase tracking-[0.2em] text-[var(--cv-muted)]">
         Stack usada nos projetos
       </h3>
       )}
@@ -97,7 +97,7 @@ const LogoLoop = ({ className = "", withTitle = true, direction = 'horizontal' }
                     key={`${logo.name}-${index}`} 
                     className="group relative flex flex-col items-center justify-center gap-2 min-w-[86px]"
                 >
-                    <div className="w-14 h-14 transition-all duration-300 filter grayscale opacity-55 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105">
+                    <div className="h-14 w-14 opacity-55 grayscale transition-all duration-300 group-hover:scale-105 group-hover:grayscale-0 group-hover:opacity-100">
                         <img 
                             src={logo.src} 
                             alt={logo.name} 
@@ -106,16 +106,16 @@ const LogoLoop = ({ className = "", withTitle = true, direction = 'horizontal' }
                     </div>
                     
                     {/* Tooltip */}
-                    <div className={`absolute ${isVertical ? 'right-full mr-4 top-1/2 -translate-y-1/2' : '-top-14 left-1/2 -translate-x-1/2'} p-2 bg-[#0b1117]/95 border border-white/10 rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform ${isVertical ? 'translate-x-2 group-hover:translate-x-0' : 'translate-y-2 group-hover:translate-y-0'} z-20 pointer-events-none w-max max-w-[150px] shadow-xl backdrop-blur-sm`}>
+                    <div className={`absolute ${isVertical ? 'right-full mr-4 top-1/2 -translate-y-1/2' : '-top-14 left-1/2 -translate-x-1/2'} invisible z-20 w-max max-w-[150px] border border-[var(--cv-line)] bg-[var(--cv-paper-soft)] p-2 opacity-0 shadow-xl transition-all duration-300 group-hover:visible group-hover:opacity-100 ${isVertical ? 'translate-x-2 group-hover:translate-x-0' : 'translate-y-2 group-hover:translate-y-0'} pointer-events-none`}>
                         <div className="text-center">
-                            <p className="text-xs font-bold text-white">{logo.name}</p>
-                            <p className="text-[10px] text-gray-400">{logo.role}</p>
+                            <p className="text-xs font-bold text-[var(--cv-ink)]">{logo.name}</p>
+                            <p className="text-[10px] text-[var(--cv-muted)]">{logo.role}</p>
                         </div>
                         {/* Arrow */}
                          {isVertical ? (
-                             <div className="absolute top-1/2 -translate-y-1/2 -right-1 w-2 h-2 bg-neutral-900 rotate-45 border-r border-t border-white/10" />
+                             <div className="absolute top-1/2 -right-1 h-2 w-2 -translate-y-1/2 rotate-45 border-r border-t border-[var(--cv-line)] bg-[var(--cv-paper-soft)]" />
                          ) : (
-                            <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-neutral-900 rotate-45 border-r border-b border-white/10" />
+                            <div className="absolute -bottom-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45 border-b border-r border-[var(--cv-line)] bg-[var(--cv-paper-soft)]" />
                          )}
                     </div>
                 </div>
