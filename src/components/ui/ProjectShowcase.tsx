@@ -79,6 +79,7 @@ const ProjectShowcase = () => {
                 {gridProjects.map((project, index) => (
                     <ProjectCard key={project.id} project={project} index={index + featuredProjects.length + 1} />
                 ))}
+                <ComingSoonProjectCard index={gridProjects.length + featuredProjects.length + 1} />
             </div>
         </div>
     );
@@ -150,6 +151,81 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
         </div>
 
         <ProjectActions project={project} primaryLabel="GitHub" secondaryLabel={project.details.links.demoConfig?.label || 'Demo'} />
+    </article>
+);
+
+const ComingSoonProjectCard = ({ index }: { index: number }) => (
+    <article className="group flex h-full min-h-[31rem] flex-col bg-[var(--cv-paper)] p-5">
+        <div className="relative aspect-[16/10] overflow-hidden border border-[var(--cv-line)] bg-[var(--cv-paper-soft)] p-4">
+            <div className="absolute inset-0 opacity-60 cv-grid" />
+            <div className="relative flex h-full flex-col justify-between border border-[var(--cv-line)] bg-[var(--cv-paper)] p-4">
+                <div className="flex items-center justify-between border-b border-[var(--cv-line)] pb-3 text-[10px] uppercase text-[var(--cv-muted)]">
+                    <span>building-next-case.app</span>
+                    <span>loading</span>
+                </div>
+
+                <div className="space-y-4">
+                    <div className="h-12 w-3/4 border border-[var(--cv-accent)] bg-[var(--cv-accent)]/12" />
+                    <div className="space-y-2">
+                        <div className="h-2 w-full overflow-hidden bg-[var(--cv-line-soft)]">
+                            <span className="block h-full w-1/3 animate-pulse bg-[var(--cv-accent)]" />
+                        </div>
+                        <div className="h-2 w-4/5 bg-[var(--cv-line-soft)]" />
+                        <div className="h-2 w-2/3 bg-[var(--cv-line-soft)]" />
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-5 gap-2">
+                    {Array.from({ length: 15 }).map((_, cellIndex) => (
+                        <span
+                            key={cellIndex}
+                            className="aspect-square border border-[var(--cv-line)]"
+                            style={{
+                                backgroundColor: cellIndex % 4 === 0 ? 'var(--cv-accent)' : 'transparent',
+                                opacity: cellIndex % 4 === 0 ? 0.45 : 1,
+                            }}
+                        />
+                    ))}
+                </div>
+            </div>
+        </div>
+
+        <div className="mt-5 cv-meta-row">
+            <span>{String(index).padStart(2, '0')}</span>
+            <span>Seu projeto</span>
+            <span className="ml-auto">Coming soon</span>
+        </div>
+
+        <h3 className="mt-5 text-2xl font-black uppercase leading-[0.9] tracking-[-0.06em] text-[var(--cv-ink)]">
+            O próximo projeto pode ser o seu.
+        </h3>
+
+        <p className="mt-4 text-sm leading-snug text-[var(--cv-muted)]">
+            Tem uma ideia, produto ou operação precisando sair do papel? Este espaço está reservado para a próxima entrega construída com clareza, código e responsabilidade.
+        </p>
+
+        <div className="mt-5 flex flex-wrap gap-2">
+            {['Discovery', 'Produto', 'Arquitetura'].map((tech) => (
+                <span key={tech} className="inline-flex items-center gap-2 border border-[var(--cv-line)] bg-[var(--cv-surface)] px-2.5 py-1.5 text-xs text-[var(--cv-ink)]">
+                    <span className="h-1.5 w-1.5 animate-pulse bg-[var(--cv-accent)]" />
+                    <span>{tech}</span>
+                </span>
+            ))}
+        </div>
+
+        <div className="mt-auto flex flex-wrap gap-3 pt-6">
+            <a href="#contact" className="cv-button cv-button-primary">
+                Vamos conversar
+            </a>
+            <a
+                href="https://www.linkedin.com/in/phdacruzsantos/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="cv-button cv-button-ghost"
+            >
+                LinkedIn
+            </a>
+        </div>
     </article>
 );
 

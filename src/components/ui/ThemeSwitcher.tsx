@@ -11,6 +11,10 @@ const themes: { id: PortfolioTheme; label: string; swatch: string }[] = [
 
 const storageKey = 'portfolio-theme';
 
+type ViewTransitionDocument = Document & {
+    startViewTransition?: (callback: () => void) => { finished: Promise<void> };
+};
+
 const getInitialTheme = (): PortfolioTheme => {
     if (typeof window === 'undefined') return 'light-orange';
 
@@ -30,6 +34,30 @@ const ThemeSwitcher = ({ compact = false }: { compact?: boolean }) => {
         window.localStorage.setItem(storageKey, theme);
     }, [theme]);
 
+    const handleThemeChange = (nextTheme: PortfolioTheme) => {
+        if (nextTheme === theme) return;
+
+        const updateTheme = () => {
+            document.documentElement.classList.add('theme-changing');
+            document.documentElement.dataset.theme = nextTheme;
+            window.localStorage.setItem(storageKey, nextTheme);
+            setTheme(nextTheme);
+        };
+        const transition = (document as ViewTransitionDocument).startViewTransition?.(updateTheme);
+
+        if (!transition) {
+            updateTheme();
+            window.setTimeout(() => {
+                document.documentElement.classList.remove('theme-changing');
+            }, 760);
+            return;
+        }
+
+        transition.finished.finally(() => {
+            document.documentElement.classList.remove('theme-changing');
+        });
+    };
+
     return (
         <div
             className={`grid gap-1 border border-[var(--cv-ink)]/25 bg-[var(--cv-surface)] p-1 ${
@@ -44,7 +72,7 @@ const ThemeSwitcher = ({ compact = false }: { compact?: boolean }) => {
                     <button
                         key={item.id}
                         type="button"
-                        onClick={() => setTheme(item.id)}
+                        onClick={() => handleThemeChange(item.id)}
                         className={`flex min-h-9 items-center justify-center gap-2 border px-2 text-[0.68rem] font-bold uppercase leading-none transition-colors ${
                             isActive
                                 ? 'border-[var(--cv-accent)] bg-[var(--cv-accent)] text-[var(--cv-inverse)]'
